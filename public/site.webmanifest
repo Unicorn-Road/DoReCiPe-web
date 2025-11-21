@@ -1,0 +1,17 @@
+{
+  "name": "Do-Re-Ci-Pe",
+  "short_name": "Do-Re-Ci-Pe",
+  "description": "Your kitchen's new rhythm. AI-powered cooking companion for iOS.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F4EC",
+  "theme_color": "#F47C64",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

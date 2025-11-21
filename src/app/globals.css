@@ -1,0 +1,293 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+@layer base {
+  :root {
+    /* Color CSS Variables for Dynamic Theming */
+    --color-cream: #f8f4ec;
+    --color-apricot: #f4d1a6;
+    --color-coral: #f47c64;
+    --color-pantry: #2d3a4a;
+    --color-charcoal: #1c1c1c;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-cream text-charcoal font-serif;
+    /* Enable OpenType features for better typography */
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-coral ring-offset-2 ring-offset-cream;
+  }
+
+  /* Smooth font rendering on retina */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Button Variants */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-coral text-white hover:bg-coral-400 active:scale-95 shadow-soft hover:shadow-medium;
+  }
+
+  .btn-secondary {
+    @apply bg-pantry text-white hover:bg-pantry-600 active:scale-95 shadow-soft hover:shadow-medium;
+  }
+
+  .btn-outline {
+    @apply border-2 border-pantry text-pantry hover:bg-pantry hover:text-white active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-pantry hover:bg-cream-200 active:scale-95;
+  }
+
+  .btn-lg {
+    @apply text-lg px-8 py-4 rounded-2xl;
+  }
+
+  .btn-sm {
+    @apply text-sm px-4 py-2 rounded-lg;
+  }
+
+  /* Card Component */
+  .card {
+    @apply bg-white rounded-2xl shadow-soft p-6 transition-shadow duration-200 hover:shadow-medium;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+
+  /* Section Spacing */
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  /* Heading Styles - Inter for clean geometric precision */
+  .heading-1 {
+    @apply font-sans text-5xl sm:text-6xl lg:text-7xl font-extrabold text-pantry;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .heading-2 {
+    @apply font-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-pantry;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .heading-3 {
+    @apply font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-pantry;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  .heading-4 {
+    @apply font-sans text-2xl sm:text-3xl font-semibold text-pantry;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .heading-5 {
+    @apply font-sans text-xl sm:text-2xl font-semibold text-pantry;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  /* Body Text - Source Serif for warmth and readability */
+  .body-lg {
+    @apply font-serif text-lg sm:text-xl text-charcoal font-medium;
+    line-height: 1.75;
+    letter-spacing: -0.005em;
+  }
+
+  .body-base {
+    @apply font-serif text-base sm:text-lg text-charcoal font-medium;
+    line-height: 1.625;
+    letter-spacing: 0em;
+  }
+
+  .body-sm {
+    @apply font-serif text-sm sm:text-base text-pantry-400;
+    line-height: 1.5;
+    letter-spacing: 0.005em;
+    font-weight: 450;
+  }
+
+  /* Link Styles */
+  .link {
+    @apply text-coral hover:text-coral-400 transition-colors underline-offset-4 hover:underline;
+  }
+
+  /* Input Styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-cream-300 bg-white text-charcoal placeholder:text-pantry-300 focus:border-coral focus:outline-none transition-colors;
+  }
+
+  /* Badge/Tag */
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-coral-100 text-coral-400;
+  }
+
+  .badge-secondary {
+    @apply bg-apricot-100 text-pantry;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-coral to-apricot-400 bg-clip-text text-transparent;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  /* Text Balance for Headlines */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Custom Scrollbar */
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    @apply bg-cream-200;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    @apply bg-pantry-300 rounded-full;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    @apply bg-pantry-400;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animation utilities */
+  .animate-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  /* Grid utilities */
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float-across {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(110vw);
+  }
+}
+
+@keyframes fly-across {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(110vw);
+  }
+}
+
+@keyframes flap {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.8);
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Prevent rubber band scrolling */
+    overscroll-behavior-y: none;
+  }
+
+  /* Better tap highlighting */
+  * {
+    -webkit-tap-highlight-color: rgba(244, 124, 100, 0.1);
+  }
+}

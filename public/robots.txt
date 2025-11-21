@@ -1,0 +1,9 @@
+# Do-Re-Ci-Pe Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://dorecipe.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
