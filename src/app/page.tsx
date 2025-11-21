@@ -43,7 +43,7 @@ export default function Home() {
           <div className="relative max-w-3xl mx-auto">
             <div className="transform hover:scale-105 transition-transform duration-500">
               <FacebookReelEmbed 
-                videoUrl="https://www.facebook.com/reel/2341981952926387" 
+                videoUrl="https://www.instagram.com/reel/DRDWHViDXPS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" 
                 className="transform rotate-0 shadow-2xl"
               />
             </div>

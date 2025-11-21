@@ -75,33 +75,34 @@ export default function PhoneMockup({ screenshots, className = "" }: PhoneMockup
 
           {/* Navigation Controls (visible on hover) */}
           <div 
-            className={`absolute inset-0 z-40 flex items-center justify-between px-2 transition-opacity duration-300 ${
+            className={`absolute inset-0 z-50 flex items-center justify-between px-2 transition-opacity duration-300 ${
               isHovered ? "opacity-100" : "opacity-0"
             }`}
+            style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
             <button 
-              onClick={(e) => { e.preventDefault(); prevSlide(); }}
-              className="w-8 h-8 rounded-full bg-black/30 text-white flex items-center justify-center hover:bg-black/50 backdrop-blur-sm transition-colors"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); prevSlide(); }}
+              className="w-8 h-8 rounded-full bg-black/30 text-white flex items-center justify-center hover:bg-black/50 backdrop-blur-sm transition-colors cursor-pointer z-50"
               aria-label="Previous slide"
             >
-              <span className="text-xl leading-none">‹</span>
+              <span className="text-xl leading-none pointer-events-none">‹</span>
             </button>
             <button 
-              onClick={(e) => { e.preventDefault(); nextSlide(); }}
-              className="w-8 h-8 rounded-full bg-black/30 text-white flex items-center justify-center hover:bg-black/50 backdrop-blur-sm transition-colors"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); nextSlide(); }}
+              className="w-8 h-8 rounded-full bg-black/30 text-white flex items-center justify-center hover:bg-black/50 backdrop-blur-sm transition-colors cursor-pointer z-50"
               aria-label="Next slide"
             >
-              <span className="text-xl leading-none">›</span>
+              <span className="text-xl leading-none pointer-events-none">›</span>
             </button>
           </div>
 
           {/* Pagination Dots */}
-          <div className="absolute bottom-6 left-0 right-0 z-40 flex justify-center gap-2">
+          <div className="absolute bottom-6 left-0 right-0 z-50 flex justify-center gap-2" style={{ pointerEvents: 'auto' }}>
             {screenshots.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setActiveIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(index); }}
+                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   index === activeIndex 
                     ? "bg-white w-4" 
                     : "bg-white/50 hover:bg-white/80"
