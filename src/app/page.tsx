@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import PhoneMockup from "@/components/PhoneMockup";
 import SwissLandscape from "@/components/SwissLandscape";
+import FacebookReelEmbed from "@/components/FacebookReelEmbed";
 
 export default function Home() {
   return (
@@ -147,16 +148,32 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-12">
-          {steps.map((step, index) => (
-            <div key={index} className="text-center">
-              <div className="w-16 h-16 bg-coral rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-glow">
-                {index + 1}
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center max-w-6xl mx-auto">
+          {/* Steps */}
+          <div className="space-y-10">
+            {steps.map((step, index) => (
+              <div key={index} className="flex gap-6 items-start text-left group">
+                <div className="flex-shrink-0 w-14 h-14 bg-coral rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-glow group-hover:scale-110 transition-transform duration-300">
+                  {index + 1}
+                </div>
+                <div>
+                  <h3 className="heading-4 mb-2">{step.title}</h3>
+                  <p className="body-base text-pantry-400 leading-relaxed">{step.description}</p>
+                </div>
               </div>
-              <h3 className="heading-4 mb-3">{step.title}</h3>
-              <p className="body-base text-pantry-400">{step.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* Video Demo */}
+          <div className="relative flex justify-center">
+            {/* Decorative blob backing */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[500px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
+            
+            <FacebookReelEmbed 
+              videoUrl="https://www.facebook.com/reel/2341981952926387" 
+              className="transform rotate-1 hover:rotate-0 transition-transform duration-500"
+            />
+          </div>
         </div>
       </Section>
 
