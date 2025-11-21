@@ -13,6 +13,20 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://dorecipe.app",
   },
+  openGraph: {
+    type: "website",
+    url: "https://dorecipe.app",
+    title: "Do-Re-Ci-Pe | Your Kitchen's New Rhythm",
+    description: "A kitchen sidekick that makes dinner easier, smarter, and way more fun. Take a photo of your fridge and we'll handle the hard part.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Do-Re-Ci-Pe",
+      },
+    ],
+  },
 };
 
 export default function Home() {
