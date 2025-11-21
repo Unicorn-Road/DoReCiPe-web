@@ -4,7 +4,7 @@ import Section from "@/components/Section";
 import Button from "@/components/Button";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: "FAQ | Common Questions",
   description:
     "Frequently asked questions about Do-Re-Ci-Pe. Get answers about features, pricing, compatibility, and more.",
 };

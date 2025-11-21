@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "How It Works",
+  title: "How It Works | From Fridge to Feast",
   description:
     "Learn how Do-Re-Ci-Pe turns your ingredients into delicious meals in three simple steps. Photo scanning, smart recipes, and cooking guidance.",
 };

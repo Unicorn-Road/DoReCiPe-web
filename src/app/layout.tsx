@@ -3,6 +3,7 @@ import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 // Heading font: Inter - Modern geometric sans with excellent legibility
 const inter = Inter({
@@ -88,6 +89,9 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Do-Re-Ci-Pe",
   },
+  other: {
+    "apple-itunes-app": "app-id=6745566524",
+  },
 };
 
 export default function RootLayout({
@@ -98,6 +102,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
       <body className="antialiased">
+        <GoogleAnalytics gaId="G-NTLV4SJLQS" />
         <Header />
         <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
         <Footer />

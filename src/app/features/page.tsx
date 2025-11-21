@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "Features",
+  title: "Features | Magic for Your Kitchen",
   description:
     "Discover all the ways Do-Re-Ci-Pe makes cooking easier. From smart photo recognition to personalized recipes, we've got your kitchen covered.",
 };

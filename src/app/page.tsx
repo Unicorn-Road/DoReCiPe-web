@@ -5,6 +5,15 @@ import Icon from "@/components/Icon";
 import PhoneMockup from "@/components/PhoneMockup";
 import SwissLandscape from "@/components/SwissLandscape";
 import FacebookReelEmbed from "@/components/FacebookReelEmbed";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Do-Re-Ci-Pe | Your Kitchen's New Rhythm",
+  description: "A kitchen sidekick that makes dinner easier, smarter, and way more fun. Take a photo of your fridge and we'll handle the hard part. iOS only.",
+  alternates: {
+    canonical: "https://dorecipe.app",
+  },
+};
 
 export default function Home() {
   return (
