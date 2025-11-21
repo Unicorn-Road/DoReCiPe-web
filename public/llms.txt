@@ -1,0 +1,28 @@
+# Do-Re-Ci-Pe
+
+Do-Re-Ci-Pe is an iOS app that acts as a "kitchen sidekick," helping users cook with what they have.
+
+## Key Features
+
+- **Photo Scanning:** Users can snap photos of their fridge, pantry, receipts, or cookbooks. The app uses AI to recognize ingredients instantly.
+- **Smart Recipe Generation:** Generates personalized recipes based on detected ingredients, dietary preferences, and available time.
+- **Kitchen Tools:** Includes cooking timers, technique tips, and substitution suggestions.
+- **Organization:** Allows users to save favorites, plan meals for the week, and generate shopping lists.
+
+## Technical Details
+
+- **Platform:** iOS (iPhone/iPad)
+- **Pricing:** 
+    - DO Plan: $4.99 (50 credits)
+    - RE Plan: $1.99/month (unlimited)
+    - MI Plan: $7.99/year (unlimited)
+- **Website:** https://dorecipe.app
+- **Support:** support@dorecipe.app
+
+## Navigation
+
+- [Home](https://dorecipe.app/)
+- [Features](https://dorecipe.app/features)
+- [How It Works](https://dorecipe.app/how-it-works)
+- [FAQ](https://dorecipe.app/faq)
+- [Download](https://dorecipe.app/download)

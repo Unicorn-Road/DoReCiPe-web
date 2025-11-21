@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import SchemaTags from "@/components/SchemaTags";
 
 // Heading font: Inter - Modern geometric sans with excellent legibility
 const inter = Inter({
@@ -103,6 +104,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
       <body className="antialiased">
         <GoogleAnalytics gaId="G-NTLV4SJLQS" />
+        <SchemaTags />
         <Header />
         <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
         <Footer />
