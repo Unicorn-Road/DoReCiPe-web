@@ -13,6 +13,10 @@ export default function PhoneMockup({ screenshots, className = "" }: PhoneMockup
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    console.log("PhoneMockup mounted with screenshots:", screenshots);
+  }, [screenshots]);
+
   // Auto-advance carousel
   useEffect(() => {
     if (isHovered) return; // Pause on hover
@@ -62,6 +66,8 @@ export default function PhoneMockup({ screenshots, className = "" }: PhoneMockup
                   fill
                   className="object-cover"
                   priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  unoptimized
                 />
               </div>
             ))}
