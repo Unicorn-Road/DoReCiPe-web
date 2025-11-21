@@ -39,17 +39,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Hero Image Placeholder */}
+          {/* Video Demo (Replaced PhoneMockup) */}
           <div className="relative max-w-3xl mx-auto">
             <div className="transform hover:scale-105 transition-transform duration-500">
-              <PhoneMockup 
-                screenshots={[
-                  "/screenshots/01-mobile.png",
-                  "/screenshots/02-mobile.png",
-                  "/screenshots/03-mobile.png",
-                  "/screenshots/04-mobile.png",
-                  "/screenshots/05-mobile.png"
-                ]} 
+              <FacebookReelEmbed 
+                videoUrl="https://www.facebook.com/reel/2341981952926387" 
+                className="transform rotate-0 shadow-2xl"
               />
             </div>
           </div>
@@ -164,14 +159,19 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Video Demo */}
+          {/* Screenshot Gallery (Replaced Video) */}
           <div className="relative flex justify-center">
             {/* Decorative blob backing */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[500px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
             
-            <FacebookReelEmbed 
-              videoUrl="https://www.facebook.com/reel/2341981952926387" 
-              className="transform rotate-1 hover:rotate-0 transition-transform duration-500"
+            <PhoneMockup 
+              screenshots={[
+                "/screenshots/01-mobile.png",
+                "/screenshots/02-mobile.png",
+                "/screenshots/03-mobile.png",
+                "/screenshots/04-mobile.png",
+                "/screenshots/05-mobile.png"
+              ]}
             />
           </div>
         </div>

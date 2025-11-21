@@ -8,10 +8,11 @@ interface FacebookReelEmbedProps {
 const FacebookReelEmbed: React.FC<FacebookReelEmbedProps> = ({ videoUrl, className = '' }) => {
   const encodedUrl = encodeURIComponent(videoUrl);
   // Use post.php which often handles Reels more reliably than video.php for vertical content
-  const src = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=false&width=267&height=476`;
+  // Increased base size from width=267 to width=350 for larger display
+  const src = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=false&width=350&height=622`;
 
   return (
-    <div className={`mx-auto max-w-[300px] ${className}`}>
+    <div className={`mx-auto max-w-[350px] ${className}`}>
       <div className="relative w-full overflow-hidden rounded-[2rem] shadow-2xl ring-8 ring-white bg-black">
         {/* 9:16 Aspect Ratio */}
         <div className="relative pb-[177.77%] h-0">
