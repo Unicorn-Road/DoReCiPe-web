@@ -51,9 +51,9 @@ export default function SupportPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">We're here to help</h1>
+          <h1 className="heading-1 mb-6">We&apos;re here to help</h1>
           <p className="body-lg text-pantry-400">
-            Questions, feedback, or just want to say hi? Drop us a message and we'll 
+            Questions, feedback, or just want to say hi? Drop us a message and we&apos;ll 
             get back to you within 48 hours.
           </p>
         </div>
@@ -219,7 +219,7 @@ export default function SupportPage() {
             <h3 className="heading-4 mb-3">Our commitment</h3>
             <p className="text-pantry-400 mb-4">
               We typically respond within 48 hours during business days. For urgent 
-              technical issues, please include "URGENT" in your subject line.
+              technical issues, please include &quot;URGENT&quot; in your subject line.
             </p>
             <p className="text-sm text-pantry-300">
               Monday – Friday, 9 AM – 5 PM EST

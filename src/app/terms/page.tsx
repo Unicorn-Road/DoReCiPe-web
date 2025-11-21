@@ -21,7 +21,7 @@ export default function TermsPage() {
             <h3 className="font-semibold text-pantry mb-3">The Human Version</h3>
             <p className="text-pantry-400">
               Use Do-Re-Ci-Pe to make cooking easier. Don&apos;t abuse it or use it for anything harmful. 
-              We're not liable if a recipe doesn't turn out perfectly (cooking is an art, not a
+              We&apos;re not liable if a recipe doesn&apos;t turn out perfectly (cooking is an art, not a
               science. Always double-check ingredients for allergens. Be cool, and we&apos;ll be cool.
             </p>
           </section>
@@ -199,7 +199,7 @@ export default function TermsPage() {
               Do-Re-Ci-Pe is here to make cooking easier and more fun. Use it responsibly, 
               verify food safety yourself, and be kind. We&apos;ll do our best to keep improving 
               the app and supporting you in the kitchen. If you have questions or problems, 
-              reach out. We're friendly humans who genuinely want to help.
+              reach out. We&apos;re friendly humans who genuinely want to help.
             </p>
           </section>
         </div>

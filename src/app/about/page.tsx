@@ -38,8 +38,8 @@ export default function AboutPage() {
 
             <p className="body-lg text-charcoal mb-6">
               That was me. Every night. As a parent trying to feed my family, I realized 
-              the problem wasn't cooking; it was deciding. The endless scroll through
-              recipe sites. The mental math of "do I have enough of this?" The guilt of 
+              the problem wasn&apos;t cooking; it was deciding. The endless scroll through
+              recipe sites. The mental math of &quot;do I have enough of this?&quot; The guilt of 
               ingredients going bad.
             </p>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
 
             <p className="body-lg text-charcoal mb-6">
               When we sing, we begin with do re mi. When we cook, we begin with Do-Re-Ci-Pe. 
-              It's about finding your rhythm in the kitchen: that flow state where
+              It&apos;s about finding your rhythm in the kitchen: that flow state where
               dinner just happens without the stress.
             </p>
 
@@ -101,7 +101,7 @@ export default function AboutPage() {
             they bought.
           </p>
           <p className="text-2xl font-serif text-pantry italic">
-            &ldquo;It's not just an app. It's a vibe shift.&rdquo;
+            &ldquo;It&apos;s not just an app. It&apos;s a vibe shift.&rdquo;
           </p>
         </div>
       </Section>

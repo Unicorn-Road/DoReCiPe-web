@@ -18,7 +18,7 @@ export default function HowItWorksPage() {
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="heading-1 mb-6">From ingredients to dinner in 4 steps</h1>
           <p className="body-lg text-pantry-400">
-            Add ingredients, generate recipes, cook with guidance, and plan ahead. It's that simple.
+            Add ingredients, generate recipes, cook with guidance, and plan ahead. It&apos;s that simple.
           </p>
         </div>
       </Section>
@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">More helpful features</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            We've thought of everything to make your cooking experience smoother.
+            We&apos;ve thought of everything to make your cooking experience smoother.
           </p>
         </div>
 

@@ -17,7 +17,7 @@ export default function FAQPage() {
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="heading-1 mb-6">Frequently Asked Questions</h1>
           <p className="body-lg text-pantry-400">
-            Everything you need to know about Do-Re-Ci-Pe. Can't find what you're looking for? 
+            Everything you need to know about Do-Re-Ci-Pe. Can&apos;t find what you&apos;re looking for? 
             Email us at support@dorecipe.app
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function FAQPage() {
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="heading-2 mb-4">Still have questions?</h2>
           <p className="body-lg text-pantry-400 mb-8">
-            We're here to help. Reach out and we'll get back to you within 48 hours.
+            We&apos;re here to help. Reach out and we&apos;ll get back to you within 48 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
