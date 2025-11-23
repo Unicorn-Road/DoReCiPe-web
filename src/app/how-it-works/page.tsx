@@ -5,9 +5,9 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "How It Works | From Fridge to Feast",
+  title: "How It Works | AI Recipe App Process",
   description:
-    "Learn how Do-Re-Ci-Pe turns your ingredients into delicious meals in three simple steps. Photo scanning, smart recipes, and cooking guidance.",
+    "Learn how Do-Re-Ci-Pe's AI turns your ingredients into meals: 1) Snap photos of your fridge or pantry, 2) Get personalized recipe suggestions, 3) Cook with step-by-step guidance and timers. Simple, smart cooking.",
 };
 
 export default function HowItWorksPage() {
@@ -16,9 +16,9 @@ export default function HowItWorksPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">From ingredients to dinner in 4 steps</h1>
+          <h1 className="heading-1 mb-6">How Our AI Recipe App Works</h1>
           <p className="body-lg text-pantry-400">
-            Add ingredients, generate recipes, cook with guidance, and plan ahead. It&apos;s that simple.
+            Four simple steps: Snap photos of your ingredients, generate personalized recipes with AI, cook with step-by-step guidance, and plan your meals. No missing ingredients, no stress.
           </p>
         </div>
       </Section>

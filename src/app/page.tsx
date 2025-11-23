@@ -8,8 +8,8 @@ import FacebookReelEmbed from "@/components/FacebookReelEmbed";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Do-Re-Ci-Pe | Your Kitchen's New Rhythm",
-  description: "A kitchen sidekick that makes dinner easier, smarter, and way more fun. Take a photo of your fridge and we'll handle the hard part. iOS only.",
+  title: "Do-Re-Ci-Pe | AI Recipe App Using Your Ingredients",
+  description: "AI recipe app that turns your ingredients into personalized meals. Snap a photo of your fridge, get instant recipes with what you have. No wasted food, no extra shopping. iOS app.",
   alternates: {
     canonical: "https://dorecipe.app",
   },
@@ -41,12 +41,15 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            When we cook, we begin with Do-Re-Ci-Pe
+            AI Recipe App That Turns Your Ingredients Into Meals
           </h1>
           
+          <p className="text-xl font-serif text-pantry-400 mb-4 italic">
+            When we cook, we begin with Do-Re-Ci-Pe
+          </p>
+          
           <p className="body-lg text-pantry-400 mb-8 max-w-2xl mx-auto">
-            A kitchen sidekick that makes dinner easier, smarter, and way more fun. 
-            Take a photo of your fridge and we&apos;ll handle the hard part.
+            Snap a photo of your fridge, pantry, or grocery receipt. Get personalized recipes instantly using exactly what you have—no missing ingredients, no wasted food, no stress.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">

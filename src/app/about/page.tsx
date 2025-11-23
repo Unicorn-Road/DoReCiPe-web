@@ -5,9 +5,9 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About | The Story Behind Our AI Recipe App",
   description:
-    "Built by a dad for real households. Learn the story behind Do-Re-Ci-Pe and why we're on a mission to bring back good kitchen vibes.",
+    "Do-Re-Ci-Pe is an AI recipe app built by a dad for real households. Learn why we created an app that helps you cook with what you have, reduce food waste, and bring back good kitchen vibes.",
 };
 
 export default function AboutPage() {
@@ -16,10 +16,9 @@ export default function AboutPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">Built by a dad, for real households</h1>
+          <h1 className="heading-1 mb-6">About Our AI Recipe App</h1>
           <p className="body-lg text-pantry-400">
-            Do-Re-Ci-Pe was born from standing in front of the fridge at 5:47 PM, 
-            wondering what&apos;s for dinner.
+            Do-Re-Ci-Pe was built by a dad for real households—born from the nightly struggle of standing in front of the fridge at 5:47 PM, wondering what&apos;s for dinner.
           </p>
         </div>
       </Section>

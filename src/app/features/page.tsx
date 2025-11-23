@@ -5,9 +5,9 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 
 export const metadata: Metadata = {
-  title: "Features | Magic for Your Kitchen",
+  title: "Features | AI Recipe Generation & Meal Planning",
   description:
-    "Discover all the ways Do-Re-Ci-Pe makes cooking easier. From smart photo recognition to personalized recipes, we've got your kitchen covered.",
+    "Discover Do-Re-Ci-Pe's AI-powered features: photo ingredient recognition, personalized recipe generation, meal planning calendar, smart grocery lists, and cooking timers. Everything you need to cook with what you have.",
 };
 
 export default function FeaturesPage() {
@@ -16,9 +16,9 @@ export default function FeaturesPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">Features that feel like magic</h1>
+          <h1 className="heading-1 mb-6">AI Recipe App Features</h1>
           <p className="body-lg text-pantry-400">
-            Everything you need to make dinner easier, without the complexity you don&apos;t.
+            Photo ingredient recognition, personalized recipe generation, meal planning, and smart cooking tools—everything you need to cook with what you have.
           </p>
         </div>
       </Section>

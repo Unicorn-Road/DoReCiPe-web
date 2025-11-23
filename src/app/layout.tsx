@@ -23,11 +23,11 @@ const sourceSerif = Source_Serif_4({
 
 export const metadata: Metadata = {
   title: {
-    default: "Do-Re-Ci-Pe | Your Kitchen's New Rhythm",
+    default: "Do-Re-Ci-Pe | AI Recipe App Using Your Ingredients",
     template: "%s | Do-Re-Ci-Pe",
   },
   description:
-    "A kitchen sidekick that makes dinner easier, smarter, and way more fun. Take a photo of your fridge and we'll handle the hard part. iOS only.",
+    "AI recipe app that turns your ingredients into personalized meals. Snap a photo of your fridge and get instant recipes with what you have. Meal planning, cooking tips, and smart grocery lists. iOS.",
   keywords: [
     "recipe app",
     "cooking app",
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://dorecipe.app",
     siteName: "Do-Re-Ci-Pe",
-    title: "Do-Re-Ci-Pe | Your Kitchen's New Rhythm",
+    title: "Do-Re-Ci-Pe | AI Recipe App Using Your Ingredients",
     description:
-      "A kitchen sidekick that makes dinner easier, smarter, and way more fun. Take a photo of your fridge and we'll handle the hard part.",
+      "AI recipe app that turns your ingredients into personalized meals. Snap a photo of your fridge and get instant recipes with what you have. No wasted food, no extra shopping.",
     images: [
       {
         url: "/og-image.png",
