@@ -1,0 +1,16 @@
+{
+  "lastUpdated": "2024-11-24",
+  "downloads": {
+    "total": 0,
+    "last30Days": 0,
+    "last7Days": 0,
+    "today": 0
+  },
+  "revenue": {
+    "total": 0,
+    "last30Days": 0,
+    "last7Days": 0,
+    "today": 0
+  },
+  "instructions": "Update these numbers manually from App Store Connect > Analytics until we implement the Reporter API integration"
+}

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 interface AppStoreStats {
   downloads: {
@@ -71,42 +73,78 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
   try {
     const appId = process.env.APPSTORE_APP_ID || '6745566524';
     const token = generateAppStoreToken();
-
-    // App Store Connect API endpoint
     const baseUrl = 'https://api.appstoreconnect.apple.com/v1';
 
-    // Note: App Store Connect Analytics API requires app-level analytics to be enabled
-    // and may have a delay in data availability (24-48 hours)
+    console.log('[AppStore] Fetching data for app:', appId);
 
-    // Fetch app info and ratings
-    const appResponse = await axios.get(`${baseUrl}/apps/${appId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    // Fetch app info
+    let currentVersion = '1.0.0';
+    let ratingAverage = 0;
+    let ratingCount = 0;
+    
+    try {
+      const appResponse = await axios.get(`${baseUrl}/apps/${appId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      currentVersion = appResponse.data.data.attributes?.versionString || '1.0.0';
+      console.log('[AppStore] App info fetched, version:', currentVersion);
+    } catch (error: any) {
+      console.error('[AppStore] Error fetching app info:', error.response?.data || error.message);
+    }
 
-    // For analytics data, you need to use the Analytics API
-    // This requires the Sales and Trends report endpoint
-    // Note: Detailed analytics may require the Reporter API or Analytics API
+    // Fetch customer reviews summary (includes rating info)
+    try {
+      const reviewsResponse = await axios.get(
+        `${baseUrl}/apps/${appId}/customerReviews`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            limit: 200,
+            sort: '-createdDate',
+          },
+        }
+      );
+      
+      const reviews = reviewsResponse.data.data || [];
+      console.log('[AppStore] Fetched', reviews.length, 'reviews');
+      
+      if (reviews.length > 0) {
+        // Calculate average rating from reviews
+        const ratings = reviews.map((r: any) => r.attributes?.rating || 0).filter((r: number) => r > 0);
+        ratingAverage = ratings.length > 0 ? ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length : 0;
+        ratingCount = ratings.length;
+      }
+    } catch (error: any) {
+      console.error('[AppStore] Error fetching reviews:', error.response?.data || error.message);
+    }
 
-    // For now, return mock data structure with instructions
-    // You'll need to implement specific Analytics API calls based on your needs
+    // Load manual stats from JSON file
+    // (App Store Connect API doesn't provide download/revenue data directly)
+    let downloadStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+    let revenueStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+    
+    try {
+      const statsPath = path.join(process.cwd(), 'data', 'appstore-stats.json');
+      if (fs.existsSync(statsPath)) {
+        const manualStats = JSON.parse(fs.readFileSync(statsPath, 'utf-8'));
+        downloadStats = manualStats.downloads || downloadStats;
+        revenueStats = manualStats.revenue || revenueStats;
+        console.log('[AppStore] Loaded manual stats from file, last updated:', manualStats.lastUpdated);
+      }
+    } catch (error: any) {
+      console.error('[AppStore] Error loading manual stats:', error.message);
+    }
+
     const stats: AppStoreStats = {
-      downloads: {
-        total: 0,
-        today: 0,
-        last7Days: 0,
-        last30Days: 0,
-      },
-      revenue: {
-        total: 0,
-        today: 0,
-        last7Days: 0,
-        last30Days: 0,
-      },
+      downloads: downloadStats,
+      revenue: revenueStats,
       ratings: {
-        average: 0,
-        count: 0,
+        average: ratingAverage,
+        count: ratingCount,
         distribution: {
           oneStar: 0,
           twoStar: 0,
@@ -116,7 +154,7 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
         },
       },
       updates: {
-        currentVersion: appResponse.data.data.attributes?.versionString || '1.0.0',
+        currentVersion,
         adoptionRate: 0,
       },
       crashes: {
@@ -125,9 +163,10 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       },
     };
 
+    console.log('[AppStore] Final stats:', JSON.stringify(stats, null, 2));
     return stats;
-  } catch (error) {
-    console.error('Error fetching App Store stats:', error);
+  } catch (error: any) {
+    console.error('[AppStore] Error fetching App Store stats:', error.response?.data || error.message);
     return null;
   }
 }
