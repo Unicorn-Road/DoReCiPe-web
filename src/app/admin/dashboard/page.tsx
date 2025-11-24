@@ -28,10 +28,18 @@ export default function AdminDashboard() {
       fetch('/api/admin/analytics')
         .then((res) => res.json())
         .then((data) => {
-          setStats(data);
+          // Handle error response or set stats
+          if (data.error) {
+            setStats({ pageviews: 0, users: 0, sessions: 0, bounceRate: 0 });
+          } else {
+            setStats(data);
+          }
           setLoading(false);
         })
-        .catch(() => setLoading(false));
+        .catch(() => {
+          setStats({ pageviews: 0, users: 0, sessions: 0, bounceRate: 0 });
+          setLoading(false);
+        });
     }
   }, [status]);
 
