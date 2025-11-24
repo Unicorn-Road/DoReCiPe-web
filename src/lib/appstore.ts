@@ -126,6 +126,7 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
     // (App Store Connect API doesn't provide download/revenue data directly)
     let downloadStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
     let revenueStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+    let ratingsDistribution = { oneStar: 0, twoStar: 0, threeStar: 0, fourStar: 0, fiveStar: 0 };
     
     try {
       const statsPath = path.join(process.cwd(), 'data', 'appstore-stats.json');
@@ -133,6 +134,14 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
         const manualStats = JSON.parse(fs.readFileSync(statsPath, 'utf-8'));
         downloadStats = manualStats.downloads || downloadStats;
         revenueStats = manualStats.revenue || revenueStats;
+        
+        // Use manual ratings if available, otherwise use API data
+        if (manualStats.ratings) {
+          ratingAverage = manualStats.ratings.average || ratingAverage;
+          ratingCount = manualStats.ratings.count || ratingCount;
+          ratingsDistribution = manualStats.ratings.distribution || ratingsDistribution;
+        }
+        
         console.log('[AppStore] Loaded manual stats from file, last updated:', manualStats.lastUpdated);
       }
     } catch (error: any) {
@@ -145,13 +154,7 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       ratings: {
         average: ratingAverage,
         count: ratingCount,
-        distribution: {
-          oneStar: 0,
-          twoStar: 0,
-          threeStar: 0,
-          fourStar: 0,
-          fiveStar: 0,
-        },
+        distribution: ratingsDistribution,
       },
       updates: {
         currentVersion,
