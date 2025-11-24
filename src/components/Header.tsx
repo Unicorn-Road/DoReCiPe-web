@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { trackDownloadClick } from "@/lib/analytics";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,6 +65,7 @@ export default function Header() {
               href="/download"
               className="btn btn-primary btn-sm"
               aria-label="Download Do-Re-Ci-Pe from App Store"
+              onClick={() => trackDownloadClick('header_desktop')}
             >
               Download
             </Link>
@@ -112,7 +114,10 @@ export default function Header() {
             <Link
               href="/download"
               className="btn btn-primary w-full"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                trackDownloadClick('header_mobile');
+                setIsMobileMenuOpen(false);
+              }}
             >
               Download
             </Link>

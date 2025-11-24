@@ -6,6 +6,7 @@ import PhoneMockup from "@/components/PhoneMockup";
 import SwissLandscape from "@/components/SwissLandscape";
 import FacebookReelEmbed from "@/components/FacebookReelEmbed";
 import RecipeDemo from "@/components/RecipeDemo";
+import DownloadButton from "@/components/DownloadButton";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -91,13 +92,9 @@ export default function Home() {
               <div className="flex flex-col items-start">
                 <h3 className="text-2xl font-bold text-pantry font-serif mb-1">Do-Re-Ci-Pe</h3>
                 <p className="text-pantry-400 mb-3">Your kitchen sidekick</p>
-                <a href="/download" className="transition-opacity hover:opacity-80">
-                  <img 
-                    src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1234567890" 
-                    alt="Download on the App Store" 
-                    className="h-10 w-auto"
-                  />
-                </a>
+                <Link href="/download">
+                  <DownloadButton location="homepage_hero_badge" />
+                </Link>
               </div>
             </div>
 
@@ -246,14 +243,7 @@ export default function Home() {
           <p className="text-xl sm:text-2xl text-white/90 mb-8">
             Your fridge has ideas. Let&apos;s see what we can make.
           </p>
-          <Link href="/download">
-            <Button 
-              size="lg" 
-              className="bg-white text-coral hover:bg-cream-100 shadow-large"
-            >
-              Get Do-Re-Ci-Pe for iOS
-            </Button>
-          </Link>
+          <DownloadButton location="homepage_final_cta" variant="white" />
           <p className="mt-6 text-white/70 text-sm">
             Starting at $4.99 · iOS 16 or later
           </p>
