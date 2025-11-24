@@ -200,23 +200,41 @@ export default function AdminDashboard() {
 
         {/* 7-Day Trend */}
         {!loading && stats.dailyTrend.length > 0 && (
-          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300 mb-8">
-            <h2 className="text-xl font-bold text-pantry mb-4">Daily Active Users (Last 7 Days)</h2>
-            <div className="flex items-end justify-between gap-2 h-48">
+          <div className="bg-white rounded-xl p-8 shadow-md border border-cream-200 mb-8">
+            <div className="flex items-baseline justify-between mb-6">
+              <div>
+                <h2 className="text-base font-bold text-pantry uppercase tracking-wide">📊 Daily Active Users</h2>
+                <p className="text-sm text-pantry-400 mt-1">Last 7 days</p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold text-pantry">
+                  {stats.dailyTrend[stats.dailyTrend.length - 1]?.users.toLocaleString()}
+                </div>
+                <div className="text-xs text-pantry-400">Today</div>
+              </div>
+            </div>
+            <div className="flex items-end justify-between gap-4 h-64">
               {stats.dailyTrend.map((day, i) => {
                 const maxUsers = Math.max(...stats.dailyTrend.map(d => d.users));
                 const height = maxUsers > 0 ? (day.users / maxUsers) * 100 : 0;
-                const date = day.date.slice(4, 6) + '/' + day.date.slice(6, 8);
+                const monthDay = `${day.date.slice(4, 6)}/${day.date.slice(6, 8)}`;
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const date = new Date(parseInt(day.date.slice(0, 4)), parseInt(day.date.slice(4, 6)) - 1, parseInt(day.date.slice(6, 8)));
+                const dayName = dayNames[date.getDay()];
                 return (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                    <div className="text-xs font-semibold text-pantry">
-                      {day.users}
+                  <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
+                    <div className="text-sm font-bold text-pantry opacity-0 group-hover:opacity-100 transition-opacity">
+                      {day.users.toLocaleString()}
                     </div>
                     <div
-                      className="w-full bg-apricot-500 rounded-t"
-                      style={{ height: `${height}%`, minHeight: height > 0 ? '4px' : '0' }}
+                      className="w-full bg-gradient-to-t from-apricot-600 to-apricot-400 rounded-t-lg hover:from-coral-600 hover:to-coral-400 transition-colors cursor-pointer shadow-sm"
+                      style={{ height: `${height}%`, minHeight: height > 0 ? '8px' : '0' }}
+                      title={`${dayName}, ${monthDay}: ${day.users} users`}
                     />
-                    <div className="text-xs text-pantry-400">{date}</div>
+                    <div className="text-center">
+                      <div className="text-xs font-medium text-pantry">{dayName}</div>
+                      <div className="text-xs text-pantry-400">{monthDay}</div>
+                    </div>
                   </div>
                 );
               })}
