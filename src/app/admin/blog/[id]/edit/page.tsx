@@ -7,11 +7,16 @@ import Link from 'next/link';
 import BlogPostForm from '@/components/BlogPostForm';
 import { BlogPost } from '@/types/blog';
 
-export default function EditBlogPost({ params }: { params: { id: string } }) {
+export default function EditBlogPost({ params }: { params: Promise<{ id: string }> }) {
   const { status } = useSession();
   const router = useRouter();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [postId, setPostId] = useState<string | null>(null);
+
+  useEffect(() => {
+    params.then(({ id }) => setPostId(id));
+  }, [params]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -20,8 +25,8 @@ export default function EditBlogPost({ params }: { params: { id: string } }) {
   }, [status, router]);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      fetch(`/api/admin/blog/${params.id}`)
+    if (status === 'authenticated' && postId) {
+      fetch(`/api/admin/blog/${postId}`)
         .then((res) => res.json())
         .then((data) => {
           setPost(data);
@@ -32,7 +37,7 @@ export default function EditBlogPost({ params }: { params: { id: string } }) {
           router.push('/admin/blog');
         });
     }
-  }, [status, params.id, router]);
+  }, [status, postId, router]);
 
   if (status === 'loading' || status === 'unauthenticated' || loading) {
     return (

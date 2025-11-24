@@ -5,7 +5,7 @@ import { getPostById, updatePost, deletePost } from '@/lib/blog';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -14,7 +14,8 @@ export async function GET(
   }
 
   try {
-    const post = await getPostById(params.id);
+    const { id } = await params;
+    const post = await getPostById(id);
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
@@ -30,7 +31,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -39,8 +40,9 @@ export async function PUT(
   }
 
   try {
+    const { id } = await params;
     const body = await request.json();
-    const post = await updatePost({ ...body, id: params.id });
+    const post = await updatePost({ ...body, id });
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
@@ -56,7 +58,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -65,7 +67,8 @@ export async function DELETE(
   }
 
   try {
-    const success = await deletePost(params.id);
+    const { id } = await params;
+    const success = await deletePost(id);
     if (!success) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
