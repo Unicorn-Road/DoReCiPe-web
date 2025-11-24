@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -10,22 +11,51 @@ export async function GET() {
   }
 
   try {
-    // TODO: Implement Google Analytics Data API integration
-    // For now, return mock data
-    // To implement:
-    // 1. Set up Google Analytics Data API service account
-    // 2. Download credentials JSON
-    // 3. Add to GOOGLE_APPLICATION_CREDENTIALS_JSON env var
-    // 4. Use @google-analytics/data package to fetch real data
+    const credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+    const propertyId = process.env.GA_PROPERTY_ID;
 
-    const mockData = {
-      pageviews: 12453,
-      users: 8234,
-      sessions: 9876,
-      bounceRate: 42.3,
-    };
+    if (!credentialsJson || !propertyId) {
+      console.error('Google Analytics credentials not configured');
+      // Return mock data if credentials not set
+      return NextResponse.json({
+        pageviews: 0,
+        users: 0,
+        sessions: 0,
+        bounceRate: 0,
+      });
+    }
 
-    return NextResponse.json(mockData);
+    const credentials = JSON.parse(credentialsJson);
+    const analyticsDataClient = new BetaAnalyticsDataClient({
+      credentials,
+    });
+
+    // Fetch analytics data for the last 30 days
+    const [response] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [
+        {
+          startDate: '30daysAgo',
+          endDate: 'today',
+        },
+      ],
+      metrics: [
+        { name: 'screenPageViews' },
+        { name: 'activeUsers' },
+        { name: 'sessions' },
+        { name: 'bounceRate' },
+      ],
+    });
+
+    const row = response.rows?.[0];
+    const metrics = row?.metricValues || [];
+
+    return NextResponse.json({
+      pageviews: parseInt(metrics[0]?.value || '0'),
+      users: parseInt(metrics[1]?.value || '0'),
+      sessions: parseInt(metrics[2]?.value || '0'),
+      bounceRate: parseFloat(metrics[3]?.value || '0') * 100,
+    });
   } catch (error) {
     console.error('Analytics error:', error);
     return NextResponse.json(
