@@ -16,12 +16,15 @@ export async function GET() {
 
     if (!credentialsJson || !propertyId) {
       console.error('Google Analytics credentials not configured');
-      // Return mock data if credentials not set
+      // Return empty data if credentials not set
       return NextResponse.json({
         pageviews: 0,
         users: 0,
         sessions: 0,
         bounceRate: 0,
+        topPages: [],
+        topSources: [],
+        dailyTrend: [],
       });
     }
 
