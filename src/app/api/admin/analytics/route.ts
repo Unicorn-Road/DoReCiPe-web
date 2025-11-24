@@ -30,8 +30,8 @@ export async function GET() {
       credentials,
     });
 
-    // Fetch analytics data for the last 30 days
-    const [response] = await analyticsDataClient.runReport({
+    // Fetch overview stats
+    const [overviewResponse] = await analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
       dateRanges: [
         {
@@ -47,14 +47,70 @@ export async function GET() {
       ],
     });
 
-    const row = response.rows?.[0];
-    const metrics = row?.metricValues || [];
+    // Fetch top pages
+    const [topPagesResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [
+        {
+          startDate: '30daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [{ name: 'pagePath' }],
+      metrics: [{ name: 'screenPageViews' }],
+      orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+      limit: 5,
+    });
+
+    // Fetch traffic sources
+    const [sourcesResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [
+        {
+          startDate: '30daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [{ name: 'sessionSource' }],
+      metrics: [{ name: 'sessions' }],
+      orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+      limit: 5,
+    });
+
+    // Fetch daily trend (last 7 days)
+    const [trendResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [
+        {
+          startDate: '7daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [{ name: 'date' }],
+      metrics: [{ name: 'activeUsers' }],
+      orderBys: [{ dimension: { dimensionName: 'date' } }],
+    });
+
+    const overviewRow = overviewResponse.rows?.[0];
+    const overviewMetrics = overviewRow?.metricValues || [];
 
     return NextResponse.json({
-      pageviews: parseInt(metrics[0]?.value || '0'),
-      users: parseInt(metrics[1]?.value || '0'),
-      sessions: parseInt(metrics[2]?.value || '0'),
-      bounceRate: parseFloat(metrics[3]?.value || '0') * 100,
+      pageviews: parseInt(overviewMetrics[0]?.value || '0'),
+      users: parseInt(overviewMetrics[1]?.value || '0'),
+      sessions: parseInt(overviewMetrics[2]?.value || '0'),
+      bounceRate: parseFloat(overviewMetrics[3]?.value || '0') * 100,
+      topPages: topPagesResponse.rows?.map(row => ({
+        path: row.dimensionValues?.[0]?.value || '',
+        views: parseInt(row.metricValues?.[0]?.value || '0'),
+      })) || [],
+      topSources: sourcesResponse.rows?.map(row => ({
+        source: row.dimensionValues?.[0]?.value || '',
+        sessions: parseInt(row.metricValues?.[0]?.value || '0'),
+      })) || [],
+      dailyTrend: trendResponse.rows?.map(row => ({
+        date: row.dimensionValues?.[0]?.value || '',
+        users: parseInt(row.metricValues?.[0]?.value || '0'),
+      })) || [],
     });
   } catch (error) {
     console.error('Analytics error:', error);

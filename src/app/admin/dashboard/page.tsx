@@ -13,6 +13,9 @@ export default function AdminDashboard() {
     users: 0,
     sessions: 0,
     bounceRate: 0,
+    topPages: [] as { path: string; views: number }[],
+    topSources: [] as { source: string; sessions: number }[],
+    dailyTrend: [] as { date: string; users: number }[],
   });
   const [loading, setLoading] = useState(true);
 
@@ -30,14 +33,30 @@ export default function AdminDashboard() {
         .then((data) => {
           // Handle error response or set stats
           if (data.error) {
-            setStats({ pageviews: 0, users: 0, sessions: 0, bounceRate: 0 });
+            setStats({
+              pageviews: 0,
+              users: 0,
+              sessions: 0,
+              bounceRate: 0,
+              topPages: [],
+              topSources: [],
+              dailyTrend: [],
+            });
           } else {
             setStats(data);
           }
           setLoading(false);
         })
         .catch(() => {
-          setStats({ pageviews: 0, users: 0, sessions: 0, bounceRate: 0 });
+          setStats({
+            pageviews: 0,
+            users: 0,
+            sessions: 0,
+            bounceRate: 0,
+            topPages: [],
+            topSources: [],
+            dailyTrend: [],
+          });
           setLoading(false);
         });
     }
@@ -124,12 +143,87 @@ export default function AdminDashboard() {
           )}
         </div>
 
+        {/* Insights Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Top Pages */}
+          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
+            <h2 className="text-xl font-bold text-pantry mb-4">Top Pages</h2>
+            {loading ? (
+              <div className="text-pantry-400 text-sm">Loading...</div>
+            ) : stats.topPages.length > 0 ? (
+              <div className="space-y-3">
+                {stats.topPages.map((page, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="text-sm text-pantry-600 truncate flex-1 mr-4">
+                      {page.path}
+                    </span>
+                    <span className="text-sm font-semibold text-pantry">
+                      {page.views.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-pantry-400 text-sm">No data yet</div>
+            )}
+          </div>
+
+          {/* Top Sources */}
+          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
+            <h2 className="text-xl font-bold text-pantry mb-4">Traffic Sources</h2>
+            {loading ? (
+              <div className="text-pantry-400 text-sm">Loading...</div>
+            ) : stats.topSources.length > 0 ? (
+              <div className="space-y-3">
+                {stats.topSources.map((source, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="text-sm text-pantry-600">
+                      {source.source}
+                    </span>
+                    <span className="text-sm font-semibold text-pantry">
+                      {source.sessions.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-pantry-400 text-sm">No data yet</div>
+            )}
+          </div>
+        </div>
+
+        {/* 7-Day Trend */}
+        {!loading && stats.dailyTrend.length > 0 && (
+          <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300 mb-8">
+            <h2 className="text-xl font-bold text-pantry mb-4">Daily Active Users (Last 7 Days)</h2>
+            <div className="flex items-end justify-between gap-2 h-48">
+              {stats.dailyTrend.map((day, i) => {
+                const maxUsers = Math.max(...stats.dailyTrend.map(d => d.users));
+                const height = maxUsers > 0 ? (day.users / maxUsers) * 100 : 0;
+                const date = day.date.slice(4, 6) + '/' + day.date.slice(6, 8);
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-2">
+                    <div className="text-xs font-semibold text-pantry">
+                      {day.users}
+                    </div>
+                    <div
+                      className="w-full bg-apricot-500 rounded-t"
+                      style={{ height: `${height}%`, minHeight: height > 0 ? '4px' : '0' }}
+                    />
+                    <div className="text-xs text-pantry-400">{date}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Quick Links */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-cream-200">
+        <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
           <h2 className="text-xl font-bold text-pantry mb-4">Quick Links</h2>
           <div className="space-y-3">
             <a
-              href="https://analytics.google.com/analytics/web/#/p467875699/reports/intelligenthome"
+              href="https://analytics.google.com/analytics/web/#/p498164889/reports/intelligenthome"
               target="_blank"
               rel="noopener noreferrer"
               className="block text-apricot-600 hover:text-apricot-700 font-semibold"
