@@ -66,20 +66,28 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation */}
-        <nav className="flex gap-4 mb-8">
+        <div className="flex items-center justify-between mb-8">
+          <nav className="flex gap-4">
+            <Link
+              href="/admin/dashboard"
+              className="px-4 py-2 bg-apricot-600 text-white rounded-lg font-semibold"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/admin/blog"
+              className="px-4 py-2 bg-white text-pantry rounded-lg font-semibold hover:bg-cream-100 border border-cream-200"
+            >
+              Blog Posts
+            </Link>
+          </nav>
           <Link
-            href="/admin/dashboard"
-            className="px-4 py-2 bg-apricot-600 text-white rounded-lg font-semibold"
+            href="/admin/blog/new"
+            className="px-6 py-3 bg-coral text-white rounded-lg font-bold hover:bg-coral-600 shadow-md hover:shadow-lg transition-all"
           >
-            Dashboard
+            ✍️ Write New Post
           </Link>
-          <Link
-            href="/admin/blog"
-            className="px-4 py-2 bg-white text-pantry rounded-lg font-semibold hover:bg-cream-100 border border-cream-200"
-          >
-            Blog Posts
-          </Link>
-        </nav>
+        </div>
 
         {/* Analytics Stats */}
         <div className="mb-8">
