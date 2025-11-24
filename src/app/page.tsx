@@ -5,6 +5,7 @@ import Icon from "@/components/Icon";
 import PhoneMockup from "@/components/PhoneMockup";
 import SwissLandscape from "@/components/SwissLandscape";
 import FacebookReelEmbed from "@/components/FacebookReelEmbed";
+import RecipeDemo from "@/components/RecipeDemo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -201,6 +202,11 @@ export default function Home() {
             />
           </div>
         </div>
+      </Section>
+
+      {/* Recipe Demo */}
+      <Section className="bg-gradient-to-b from-cream-50 to-white">
+        <RecipeDemo />
       </Section>
 
       {/* Testimonials */}

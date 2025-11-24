@@ -3,6 +3,14 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
+import RecipeDemo from "@/components/RecipeDemo";
+import {
+  PhotoRecognitionIllustration,
+  RecipeGenerationIllustration,
+  KitchenToolsIllustration,
+  CookbookIllustration,
+  MealPlanIllustration,
+} from "@/components/FeatureIllustrations";
 
 export const metadata: Metadata = {
   title: "Features | AI Recipe Generation & Meal Planning",
@@ -26,41 +34,53 @@ export default function FeaturesPage() {
       {/* Core Features */}
       <Section>
         <div className="space-y-24">
-          {detailedFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className={`grid md:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
-            >
-              <div className={index % 2 === 1 ? "md:order-2" : ""}>
-                <div className="flex mb-4 text-coral">
-                  <Icon name={feature.icon} className="w-12 h-12" />
+          {detailedFeatures.map((feature, index) => {
+            const illustrations = [
+              <PhotoRecognitionIllustration key="photo" />,
+              <RecipeGenerationIllustration key="recipe" />,
+              <KitchenToolsIllustration key="tools" />,
+              <CookbookIllustration key="cookbook" />,
+              <MealPlanIllustration key="meal" />,
+            ];
+            
+            return (
+              <div
+                key={index}
+                className={`grid md:grid-cols-2 gap-12 items-center ${
+                  index % 2 === 1 ? "md:flex-row-reverse" : ""
+                }`}
+              >
+                <div className={index % 2 === 1 ? "md:order-2" : ""}>
+                  <div className="flex mb-4 text-coral">
+                    <Icon name={feature.icon} className="w-12 h-12" />
+                  </div>
+                  <h2 className="heading-3 mb-4">{feature.title}</h2>
+                  <p className="body-lg text-pantry-400 mb-6">
+                    {feature.description}
+                  </p>
+                  <ul className="space-y-3">
+                    {feature.benefits.map((benefit, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="text-coral text-xl mt-1">✓</span>
+                        <span className="body-base text-charcoal">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h2 className="heading-3 mb-4">{feature.title}</h2>
-                <p className="body-lg text-pantry-400 mb-6">
-                  {feature.description}
-                </p>
-                <ul className="space-y-3">
-                  {feature.benefits.map((benefit, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="text-coral text-xl mt-1">✓</span>
-                      <span className="body-base text-charcoal">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className={index % 2 === 1 ? "md:order-1" : ""}>
-                <div className="bg-gradient-to-br from-apricot-100 to-coral-100 rounded-2xl aspect-square flex items-center justify-center shadow-medium">
-                  <div className="text-center p-8">
-                    <div className="text-6xl mb-4">{feature.icon}</div>
-                    <p className="text-pantry-400">Feature Illustration</p>
+                <div className={index % 2 === 1 ? "md:order-1" : ""}>
+                  <div className="aspect-square shadow-medium">
+                    {illustrations[index]}
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+      </Section>
+
+      {/* Interactive Recipe Demo */}
+      <Section className="bg-gradient-to-b from-cream-50 to-white">
+        <RecipeDemo />
       </Section>
 
       {/* Feature Grid */}
