@@ -16,16 +16,40 @@ interface MarketingData {
   };
 }
 
+interface AppStoreData {
+  configured: boolean;
+  message?: string;
+  stats: {
+    downloads: { total: number; today: number; last7Days: number; last30Days: number };
+    revenue: { total: number; today: number; last7Days: number; last30Days: number };
+    ratings: {
+      average: number;
+      count: number;
+      distribution: { oneStar: number; twoStar: number; threeStar: number; fourStar: number; fiveStar: number };
+    };
+    updates: { currentVersion: string; adoptionRate: number };
+    crashes: { count: number; crashFreeRate: number };
+  };
+  reviews: any[];
+}
+
 export default function MarketingDashboard() {
   const [data, setData] = useState<MarketingData | null>(null);
+  const [appStoreData, setAppStoreData] = useState<AppStoreData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/admin/analytics/enhanced')
-      .then(res => res.json())
-      .then(result => {
-        if (!result.error) {
-          setData(result);
+    // Fetch both web analytics and App Store data
+    Promise.all([
+      fetch('/api/admin/analytics/enhanced').then(res => res.json()),
+      fetch('/api/admin/appstore').then(res => res.json()),
+    ])
+      .then(([analyticsResult, appStoreResult]) => {
+        if (!analyticsResult.error) {
+          setData(analyticsResult);
+        }
+        if (!appStoreResult.error) {
+          setAppStoreData(appStoreResult);
         }
         setLoading(false);
       })
@@ -127,6 +151,94 @@ export default function MarketingDashboard() {
           </div>
         </div>
       </div>
+
+      {/* App Store Metrics */}
+      {appStoreData && (
+        <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-10 text-white shadow-xl">
+          <h2 className="text-xl font-bold mb-8 text-white uppercase tracking-wide flex items-center gap-3">
+            <span>📱</span> App Store Performance
+          </h2>
+          
+          {!appStoreData.configured && (
+            <div className="bg-white/10 backdrop-blur rounded-lg p-6 mb-6">
+              <p className="text-sm text-white/90">
+                {appStoreData.message || 'Configure App Store Connect API to see metrics here.'}
+              </p>
+            </div>
+          )}
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="space-y-2">
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Total Downloads</div>
+              <div className="text-5xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</div>
+              <div className="text-sm text-white/70">Last 30 days: {appStoreData.stats.downloads.last30Days.toLocaleString()}</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Rating</div>
+              <div className="text-5xl font-bold text-white">
+                {appStoreData.stats.ratings.average > 0 ? appStoreData.stats.ratings.average.toFixed(1) : 'N/A'}
+              </div>
+              <div className="text-sm text-white/70">{appStoreData.stats.ratings.count.toLocaleString()} reviews</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Revenue</div>
+              <div className="text-5xl font-bold text-white">
+                ${(appStoreData.stats.revenue.last30Days / 1000).toFixed(1)}k
+              </div>
+              <div className="text-sm text-white/70">Last 30 days</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Crash-Free</div>
+              <div className="text-5xl font-bold text-white">{appStoreData.stats.crashes.crashFreeRate.toFixed(1)}%</div>
+              <div className="text-sm text-white/70">Current version: {appStoreData.stats.updates.currentVersion}</div>
+            </div>
+          </div>
+
+          {/* Ratings Distribution */}
+          {appStoreData.stats.ratings.count > 0 && (
+            <div className="mt-8 bg-white/10 backdrop-blur rounded-lg p-6">
+              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Rating Distribution</h3>
+              <div className="space-y-2">
+                {[5, 4, 3, 2, 1].map((star) => {
+                  const key = `${['one', 'two', 'three', 'four', 'five'][star - 1]}Star` as keyof typeof appStoreData.stats.ratings.distribution;
+                  const count = appStoreData.stats.ratings.distribution[key];
+                  const percent = appStoreData.stats.ratings.count > 0 ? (count / appStoreData.stats.ratings.count) * 100 : 0;
+                  return (
+                    <div key={star} className="flex items-center gap-3">
+                      <div className="w-16 text-sm text-white/90">{star} ⭐</div>
+                      <div className="flex-1 h-3 bg-white/20 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-yellow-400 rounded-full transition-all"
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <div className="w-12 text-sm text-white/90 text-right">{count}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Recent Reviews */}
+          {appStoreData.reviews && appStoreData.reviews.length > 0 && (
+            <div className="mt-8 bg-white/10 backdrop-blur rounded-lg p-6">
+              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Recent Reviews</h3>
+              <div className="space-y-4">
+                {appStoreData.reviews.slice(0, 3).map((review: any, i: number) => (
+                  <div key={i} className="border-b border-white/10 pb-3 last:border-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="text-yellow-400">{'⭐'.repeat(review.attributes?.rating || 5)}</div>
+                      <div className="text-sm text-white/70">{review.attributes?.reviewerNickname || 'Anonymous'}</div>
+                    </div>
+                    <p className="text-sm text-white/90">{review.attributes?.body || 'No comment'}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* SEO Performance & Devices Grid */}
       <div className="grid md:grid-cols-3 gap-8">
