@@ -44,137 +44,147 @@ export default function MarketingDashboard() {
   const newUserPercent = totalUsers > 0 ? (data.userTypes.new / totalUsers) * 100 : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Key Marketing Metrics - Highlighted */}
-      <div className="bg-gradient-to-br from-apricot-600 to-coral-600 rounded-2xl p-8 text-white shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 drop-shadow-sm">🎯 Key Performance Indicators</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <div className="text-sm font-medium mb-1 drop-shadow-sm">App Download Clicks</div>
-            <div className="text-4xl font-bold drop-shadow-md">{data.conversions.downloads.toLocaleString()}</div>
+      <div className="bg-pantry rounded-2xl p-10 text-white shadow-xl">
+        <h2 className="text-xl font-bold mb-8 text-cream-50 uppercase tracking-wide">🎯 Key Performance Indicators</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-cream-200 uppercase tracking-wider">App Downloads</div>
+            <div className="text-5xl font-bold text-white">{data.conversions.downloads.toLocaleString()}</div>
+            <div className="text-sm text-apricot-200">Clicks on download buttons</div>
           </div>
-          <div>
-            <div className="text-sm font-medium mb-1 drop-shadow-sm">Search Impressions</div>
-            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.impressions.toLocaleString()}</div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-cream-200 uppercase tracking-wider">Search Impressions</div>
+            <div className="text-5xl font-bold text-white">{data.searchConsole.impressions.toLocaleString()}</div>
+            <div className="text-sm text-apricot-200">Times shown in search</div>
           </div>
-          <div>
-            <div className="text-sm font-medium mb-1 drop-shadow-sm">Search Clicks</div>
-            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.clicks.toLocaleString()}</div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-cream-200 uppercase tracking-wider">Search Clicks</div>
+            <div className="text-5xl font-bold text-white">{data.searchConsole.clicks.toLocaleString()}</div>
+            <div className="text-sm text-apricot-200">Organic traffic from Google</div>
           </div>
-          <div>
-            <div className="text-sm font-medium mb-1 drop-shadow-sm">Avg. Search Position</div>
-            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.position > 0 ? data.searchConsole.position.toFixed(1) : 'N/A'}</div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-cream-200 uppercase tracking-wider">Avg. Position</div>
+            <div className="text-5xl font-bold text-white">{data.searchConsole.position > 0 ? data.searchConsole.position.toFixed(1) : 'N/A'}</div>
+            <div className="text-sm text-apricot-200">Search result ranking</div>
           </div>
         </div>
       </div>
 
       {/* Acquisition Channels */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
-          <h3 className="text-lg font-bold text-pantry mb-4">📈 Top Acquisition Channels</h3>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="bg-white rounded-xl p-8 shadow-md border border-cream-200">
+          <h3 className="text-base font-bold text-pantry mb-6 uppercase tracking-wide">📈 Top Channels</h3>
           {data.channels.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {data.channels.map((channel, i) => (
-                <div key={i} className="flex justify-between items-center">
-                  <span className="text-sm font-semibold text-pantry-600 capitalize">
+                <div key={i} className="flex justify-between items-center pb-3 border-b border-cream-100 last:border-0">
+                  <span className="text-base font-medium text-pantry capitalize">
                     {channel.channel}
                   </span>
-                  <span className="text-sm font-bold text-pantry">
-                    {channel.sessions.toLocaleString()} sessions
+                  <span className="text-lg font-bold text-pantry">
+                    {channel.sessions.toLocaleString()}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-pantry-400 text-sm">No data yet</div>
+            <div className="text-pantry-400">No data yet</div>
           )}
         </div>
 
         {/* New vs Returning Users */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
-          <h3 className="text-lg font-bold text-pantry mb-4">👥 User Acquisition</h3>
-          <div className="space-y-4">
+        <div className="bg-white rounded-xl p-8 shadow-md border border-cream-200">
+          <h3 className="text-base font-bold text-pantry mb-6 uppercase tracking-wide">👥 User Types</h3>
+          <div className="space-y-6">
             <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-pantry-600">New Users</span>
-                <span className="font-bold text-pantry">{data.userTypes.new.toLocaleString()} ({newUserPercent.toFixed(0)}%)</span>
+              <div className="flex justify-between mb-3">
+                <span className="text-base font-medium text-pantry">New Users</span>
+                <span className="text-lg font-bold text-pantry">{data.userTypes.new.toLocaleString()}</span>
               </div>
-              <div className="h-3 bg-cream-200 rounded-full overflow-hidden">
+              <div className="h-4 bg-cream-100 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-apricot-500 rounded-full"
+                  className="h-full bg-apricot-500 rounded-full transition-all"
                   style={{ width: `${newUserPercent}%` }}
                 />
               </div>
+              <div className="text-xs text-pantry-400 mt-1">{newUserPercent.toFixed(0)}% of total</div>
             </div>
             <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-pantry-600">Returning Users</span>
-                <span className="font-bold text-pantry">{data.userTypes.returning.toLocaleString()} ({(100 - newUserPercent).toFixed(0)}%)</span>
+              <div className="flex justify-between mb-3">
+                <span className="text-base font-medium text-pantry">Returning Users</span>
+                <span className="text-lg font-bold text-pantry">{data.userTypes.returning.toLocaleString()}</span>
               </div>
-              <div className="h-3 bg-cream-200 rounded-full overflow-hidden">
+              <div className="h-4 bg-cream-100 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-coral-500 rounded-full"
+                  className="h-full bg-coral-500 rounded-full transition-all"
                   style={{ width: `${100 - newUserPercent}%` }}
                 />
               </div>
+              <div className="text-xs text-pantry-400 mt-1">{(100 - newUserPercent).toFixed(0)}% of total</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* SEO Performance */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
-        <h3 className="text-lg font-bold text-pantry mb-4">🔍 Top Search Queries (SEO)</h3>
-        {data.searchConsole.topQueries.length > 0 ? (
-          <div className="space-y-3">
-            {data.searchConsole.topQueries.map((query, i) => (
-              <div key={i} className="flex justify-between items-start">
-                <div className="flex-1">
-                  <div className="text-sm font-semibold text-pantry-600">{query.query}</div>
-                  <div className="text-xs text-pantry-400">
-                    {query.impressions.toLocaleString()} impressions
+      {/* SEO Performance & Devices Grid */}
+      <div className="grid md:grid-cols-3 gap-8">
+        {/* SEO Performance - takes 2 columns */}
+        <div className="md:col-span-2 bg-white rounded-xl p-8 shadow-md border border-cream-200">
+          <h3 className="text-base font-bold text-pantry mb-6 uppercase tracking-wide">🔍 Top Search Queries</h3>
+          {data.searchConsole.topQueries.length > 0 ? (
+            <div className="space-y-4">
+              {data.searchConsole.topQueries.map((query, i) => (
+                <div key={i} className="flex justify-between items-center pb-4 border-b border-cream-100 last:border-0">
+                  <div className="flex-1 mr-6">
+                    <div className="text-base font-medium text-pantry mb-1">{query.query}</div>
+                    <div className="text-sm text-pantry-400">
+                      {query.impressions.toLocaleString()} impressions
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-apricot-600">{query.clicks}</div>
+                    <div className="text-xs text-pantry-400">clicks</div>
                   </div>
                 </div>
-                <div className="text-sm font-bold text-apricot-600">
-                  {query.clicks} clicks
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-pantry-400 text-sm">
-            No search data yet. Make sure site is verified in Google Search Console.
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-pantry-400 py-8 text-center">
+              No search data yet. Site verification may take 24-48 hours.
+            </div>
+          )}
+        </div>
 
-      {/* Device Breakdown */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
-        <h3 className="text-lg font-bold text-pantry mb-4">📱 Device Breakdown</h3>
-        {data.devices.length > 0 ? (
-          <div className="flex gap-4">
-            {data.devices.map((device, i) => {
-              const totalDeviceUsers = data.devices.reduce((sum, d) => sum + d.users, 0);
-              const percent = totalDeviceUsers > 0 ? (device.users / totalDeviceUsers) * 100 : 0;
-              return (
-                <div key={i} className="flex-1 text-center">
-                  <div className="text-3xl mb-2">
-                    {device.device === 'mobile' ? '📱' : device.device === 'desktop' ? '💻' : '📺'}
+        {/* Device Breakdown */}
+        <div className="bg-white rounded-xl p-8 shadow-md border border-cream-200">
+          <h3 className="text-base font-bold text-pantry mb-6 uppercase tracking-wide">📱 Devices</h3>
+          {data.devices.length > 0 ? (
+            <div className="space-y-6">
+              {data.devices.map((device, i) => {
+                const totalDeviceUsers = data.devices.reduce((sum, d) => sum + d.users, 0);
+                const percent = totalDeviceUsers > 0 ? (device.users / totalDeviceUsers) * 100 : 0;
+                return (
+                  <div key={i} className="text-center">
+                    <div className="text-4xl mb-3">
+                      {device.device === 'mobile' ? '📱' : device.device === 'desktop' ? '💻' : '📺'}
+                    </div>
+                    <div className="text-sm font-medium text-pantry-600 capitalize mb-2">
+                      {device.device}
+                    </div>
+                    <div className="text-3xl font-bold text-pantry mb-1">
+                      {device.users.toLocaleString()}
+                    </div>
+                    <div className="text-sm text-pantry-400">{percent.toFixed(0)}%</div>
                   </div>
-                  <div className="text-sm font-semibold text-pantry-600 capitalize mb-1">
-                    {device.device}
-                  </div>
-                  <div className="text-2xl font-bold text-pantry mb-1">
-                    {device.users.toLocaleString()}
-                  </div>
-                  <div className="text-xs text-pantry-400">{percent.toFixed(0)}%</div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="text-pantry-400 text-sm">No device data yet</div>
-        )}
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-pantry-400">No data yet</div>
+          )}
+        </div>
       </div>
     </div>
   );
