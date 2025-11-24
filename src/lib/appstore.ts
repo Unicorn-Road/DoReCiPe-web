@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
 
 interface AppStoreStats {
   downloads: {
@@ -73,6 +74,104 @@ function generateAppStoreToken(): string {
 }
 
 /**
+ * Fetch Sales Reports (downloads and revenue) for Do-Re-Ci-Pe
+ * Fetches recent reports and aggregates by date ranges
+ * NOTE: This fetches multiple days of reports - consider caching in production
+ */
+async function fetchSalesReports(token: string): Promise<{
+  downloads: { total: number; today: number; last7Days: number; last30Days: number };
+  revenue: { total: number; today: number; last7Days: number; last30Days: number };
+}> {
+  const vendor = process.env.APPSTORE_VENDOR_NUMBER;
+  const TARGET_SKU = 'com.seahostler.dorecipe'; // Do-Re-Ci-Pe SKU
+  
+  if (!vendor) {
+    console.log('[AppStore] No vendor number configured');
+    return {
+      downloads: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
+      revenue: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
+    };
+  }
+
+  const baseUrl = 'https://api.appstoreconnect.apple.com/v1';
+  const totals = { last7Days: { units: 0, revenue: 0 }, last30Days: { units: 0, revenue: 0 } };
+
+  console.log('[AppStore] Fetching sales reports for last 30 days...');
+
+  // Fetch last 30 days (skip today and yesterday due to reporting delay)
+  for (let daysAgo = 2; daysAgo <= 30; daysAgo++) {
+    const d = new Date();
+    d.setDate(d.getDate() - daysAgo);
+    const reportDate = d.toISOString().split('T')[0];
+    
+    try {
+      const res = await axios.get(`${baseUrl}/salesReports`, {
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/a-gzip' },
+        params: {
+          'filter[frequency]': 'DAILY',
+          'filter[reportSubType]': 'SUMMARY',
+          'filter[reportType]': 'SALES',
+          'filter[vendorNumber]': vendor,
+          'filter[reportDate]': reportDate,
+        },
+        responseType: 'arraybuffer',
+        timeout: 5000,
+      });
+      
+      const data = zlib.gunzipSync(res.data).toString();
+      const lines = data.split('\n').filter((l) => l.trim());
+      
+      // Parse rows for Do-Re-Ci-Pe only
+      let dayUnits = 0;
+      let dayRevenue = 0;
+      
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split('\t');
+        if (cols.length < 10) continue;
+        
+        const sku = cols[2];
+        if (sku !== TARGET_SKU) continue; // Only count Do-Re-Ci-Pe
+        
+        const units = parseInt(cols[7]) || 0;
+        const revenue = parseFloat(cols[9]) || 0;
+        
+        dayUnits += units;
+        dayRevenue += revenue;
+      }
+      
+      // Add to totals
+      totals.last30Days.units += dayUnits;
+      totals.last30Days.revenue += dayRevenue;
+      
+      if (daysAgo <= 8) { // Last 7 days
+        totals.last7Days.units += dayUnits;
+        totals.last7Days.revenue += dayRevenue;
+      }
+      
+    } catch (err) {
+      // Skip missing reports (likely no sales that day)
+    }
+  }
+
+  console.log('[AppStore] Sales data aggregated:', totals.last30Days.units, 'units, $' + totals.last30Days.revenue.toFixed(2));
+
+  return {
+    downloads: {
+      total: totals.last30Days.units,
+      today: 0,
+      last7Days: totals.last7Days.units,
+      last30Days: totals.last30Days.units,
+    },
+    revenue: {
+      total: totals.last30Days.revenue,
+      today: 0,
+      last7Days: totals.last7Days.revenue,
+      last30Days: totals.last30Days.revenue,
+    },
+  };
+}
+
+/**
  * Fetches app analytics from App Store Connect API
  */
 export async function getAppStoreStats(): Promise<AppStoreStats | null> {
@@ -100,9 +199,10 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       console.error('[AppStore] Error fetching app info:', error.response?.data || error.message);
     }
 
-    // Download and revenue data not available via standard API
-    const downloadStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
-    const revenueStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+    // Fetch sales data (downloads and revenue)
+    const sales = await fetchSalesReports(token);
+    const downloadStats = { total: sales.downloads.total, today: 0, last7Days: sales.downloads.last7Days, last30Days: sales.downloads.last30Days };
+    const revenueStats = { total: sales.revenue.total, today: 0, last7Days: sales.revenue.last7Days, last30Days: sales.revenue.last30Days };
 
     // Fetch customer reviews summary (includes rating info)
     let ratingsDistribution = { oneStar: 0, twoStar: 0, threeStar: 0, fourStar: 0, fiveStar: 0 };
