@@ -102,9 +102,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${sourceSerif.variable}`}>
+      <head>
+        <SchemaTags />
+      </head>
       <body className="antialiased">
         <GoogleAnalytics gaId="G-NTLV4SJLQS" />
-        <SchemaTags />
         <Header />
         <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
         <Footer />
