@@ -46,21 +46,29 @@ To get real analytics data in the admin dashboard:
 ### ✅ Implemented
 - **Authentication System**: Secure login with NextAuth.js
 - **Admin Dashboard**: Analytics overview with page views, users, sessions, bounce rate
+- **Blog Management System**: Full CRUD for blog posts with markdown support
+- **Public Blog Pages**: Blog listing and individual post pages with SEO
 - **Quick Links**: Direct access to Google Analytics and Search Console
 - **Session Management**: Secure JWT-based sessions
 - **Protected Routes**: Automatic redirect if not authenticated
 
 ### 🚧 Ready for Implementation
-- **Blog System**: Structure is ready, needs CRUD operations
 - **Real Analytics**: Mock data currently, Google Analytics Data API integration ready
 - **User Management**: Can be extended from current auth system
+- **Blog Markdown Rendering**: Currently plain text, can add markdown parser
 
 ## Admin Routes
 
 - `/admin/login` - Login page
 - `/admin/dashboard` - Main dashboard with analytics
-- `/admin/blog` - Blog post management (to be implemented)
-- `/admin/blog/new` - Create new blog post (to be implemented)
+- `/admin/blog` - Blog post list (create, edit, delete)
+- `/admin/blog/new` - Create new blog post
+- `/admin/blog/[id]/edit` - Edit existing blog post
+
+## Public Routes
+
+- `/blog` - Blog listing page (published posts only)
+- `/blog/[slug]` - Individual blog post page
 
 ## Security Notes
 
@@ -109,26 +117,50 @@ GA_PROPERTY_ID=properties/467875699
 GOOGLE_APPLICATION_CREDENTIALS_JSON=<your-service-account-json>
 ```
 
-## Blog System (Next Steps)
+## Blog System
 
-The blog system structure is ready. To complete it:
+### Features
+- **File-based Storage**: Blog posts stored as JSON files in `data/blog/`
+- **CRUD Operations**: Create, read, update, and delete blog posts
+- **Draft/Published Status**: Control visibility of posts
+- **Featured Images**: Optional image URLs for posts
+- **Tags**: Comma-separated tags for categorization
+- **Markdown Support**: Content field supports markdown (rendering to be enhanced)
+- **SEO Optimization**: Metadata and Open Graph tags generated automatically
 
-1. Choose a content management approach:
-   - **Simple**: JSON files in `/public/blog/`
-   - **Database**: Add Vercel Postgres or similar
-   - **Headless CMS**: Integrate Sanity, Contentful, or similar
+### Creating a Blog Post
 
-2. Implement API routes:
-   - `GET /api/admin/blog` - List all posts
-   - `POST /api/admin/blog` - Create post
-   - `PUT /api/admin/blog/[id]` - Update post
-   - `DELETE /api/admin/blog/[id]` - Delete post
+1. Log in to admin at `/admin/login`
+2. Click "Blog Posts" in navigation
+3. Click "Create New Post"
+4. Fill in:
+   - **Title**: Post title
+   - **Slug**: URL-friendly path (e.g., "my-first-post")
+   - **Excerpt**: Short summary for listings
+   - **Content**: Full post content (markdown supported)
+   - **Featured Image**: Optional image URL
+   - **Tags**: Comma-separated (e.g., "recipes, tips, cooking")
+   - **Published**: Check to make visible to public
+5. Click "Create Post"
 
-3. Create public blog pages:
-   - `/blog` - List all published posts
-   - `/blog/[slug]` - Individual blog post
+### Data Storage
 
-4. Add to sitemap for SEO
+Blog posts are stored in `data/blog/` as JSON files (git-ignored). Each post file is named with a timestamp ID. 
+
+**Important**: These files are not committed to Git. For production:
+- Consider using a database (Vercel Postgres, MongoDB, etc.)
+- Or use a headless CMS (Sanity, Contentful, etc.)
+- Current file-based approach works for development and low-volume sites
+
+### Enhancing Blog Posts
+
+To add markdown rendering:
+
+```bash
+npm install react-markdown
+```
+
+Then update `src/app/blog/[slug]/page.tsx` to use `<ReactMarkdown>{post.content}</ReactMarkdown>`
 
 ## Support
 
