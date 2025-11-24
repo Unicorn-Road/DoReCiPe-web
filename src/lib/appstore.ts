@@ -52,16 +52,22 @@ function generateAppStoreToken(): string {
   // Format the private key properly (handle escaped newlines)
   const formattedKey = privateKey.replace(/\\n/g, '\n');
 
-  const token = jwt.sign({}, formattedKey, {
-    algorithm: 'ES256',
-    expiresIn: '20m',
-    issuer: issuerId,
-    header: {
-      alg: 'ES256',
-      kid: keyId,
-      typ: 'JWT',
+  const token = jwt.sign(
+    {
+      aud: 'appstoreconnect-v1',
     },
-  });
+    formattedKey,
+    {
+      algorithm: 'ES256',
+      expiresIn: '20m',
+      issuer: issuerId,
+      header: {
+        alg: 'ES256',
+        kid: keyId,
+        typ: 'JWT',
+      },
+    }
+  );
 
   return token;
 }
@@ -94,7 +100,13 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       console.error('[AppStore] Error fetching app info:', error.response?.data || error.message);
     }
 
+    // Download and revenue data not available via standard API
+    const downloadStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+    const revenueStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
+
     // Fetch customer reviews summary (includes rating info)
+    let ratingsDistribution = { oneStar: 0, twoStar: 0, threeStar: 0, fourStar: 0, fiveStar: 0 };
+    
     try {
       const reviewsResponse = await axios.get(
         `${baseUrl}/apps/${appId}/customerReviews`,
@@ -113,40 +125,27 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       console.log('[AppStore] Fetched', reviews.length, 'reviews');
       
       if (reviews.length > 0) {
-        // Calculate average rating from reviews
+        // Calculate average rating and distribution from reviews
         const ratings = reviews.map((r: any) => r.attributes?.rating || 0).filter((r: number) => r > 0);
         ratingAverage = ratings.length > 0 ? ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length : 0;
         ratingCount = ratings.length;
+        
+        // Calculate distribution
+        ratings.forEach((rating: number) => {
+          if (rating === 5) ratingsDistribution.fiveStar++;
+          else if (rating === 4) ratingsDistribution.fourStar++;
+          else if (rating === 3) ratingsDistribution.threeStar++;
+          else if (rating === 2) ratingsDistribution.twoStar++;
+          else if (rating === 1) ratingsDistribution.oneStar++;
+        });
+        
+        console.log('[AppStore] Rating average:', ratingAverage.toFixed(2), 'from', ratingCount, 'reviews');
+        console.log('[AppStore] Distribution:', JSON.stringify(ratingsDistribution));
       }
     } catch (error: any) {
       console.error('[AppStore] Error fetching reviews:', error.response?.data || error.message);
     }
 
-    // Load manual stats from JSON file
-    // (App Store Connect API doesn't provide download/revenue data directly)
-    let downloadStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
-    let revenueStats = { total: 0, today: 0, last7Days: 0, last30Days: 0 };
-    let ratingsDistribution = { oneStar: 0, twoStar: 0, threeStar: 0, fourStar: 0, fiveStar: 0 };
-    
-    try {
-      const statsPath = path.join(process.cwd(), 'data', 'appstore-stats.json');
-      if (fs.existsSync(statsPath)) {
-        const manualStats = JSON.parse(fs.readFileSync(statsPath, 'utf-8'));
-        downloadStats = manualStats.downloads || downloadStats;
-        revenueStats = manualStats.revenue || revenueStats;
-        
-        // Use manual ratings if available, otherwise use API data
-        if (manualStats.ratings) {
-          ratingAverage = manualStats.ratings.average || ratingAverage;
-          ratingCount = manualStats.ratings.count || ratingCount;
-          ratingsDistribution = manualStats.ratings.distribution || ratingsDistribution;
-        }
-        
-        console.log('[AppStore] Loaded manual stats from file, last updated:', manualStats.lastUpdated);
-      }
-    } catch (error: any) {
-      console.error('[AppStore] Error loading manual stats:', error.message);
-    }
 
     const stats: AppStoreStats = {
       downloads: downloadStats,
