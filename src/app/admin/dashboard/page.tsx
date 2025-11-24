@@ -4,6 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import MarketingDashboard from '@/components/MarketingDashboard';
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -116,9 +117,14 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
+        {/* Marketing KPIs - Most Important */}
+        <div className="mb-8">
+          <MarketingDashboard />
+        </div>
+
         {/* Analytics Stats */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-pantry mb-4">Analytics Overview</h2>
+          <h2 className="text-xl font-bold text-pantry mb-4">Website Analytics (Last 30 Days)</h2>
           {loading ? (
             <div className="text-pantry-400">Loading analytics...</div>
           ) : (
