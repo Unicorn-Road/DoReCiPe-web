@@ -19,10 +19,10 @@ export default function DownloadPage() {
             <span className="badge badge-secondary">iOS Only</span>
           </div>
           
-          <h1 className="heading-1 mb-6">Download the AI Recipe App</h1>
+          <h1 className="heading-1 mb-6">Get the app that cooks with what you have</h1>
           
           <p className="body-lg text-pantry-400 mb-12">
-            Get Do-Re-Ci-Pe for iPhone and iPad. Turn your ingredients into personalized meals with AI-powered recipe generation. Plans from $4.99. No account required to start.
+            Do-Re-Ci-Pe for iPhone and iPad turns your ingredients into personalized recipes using AI. Photo recognition, meal planning, and cooking guidance. Plans from $4.99. No account required.
           </p>
 
           {/* App Store Button */}

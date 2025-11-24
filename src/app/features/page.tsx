@@ -16,9 +16,9 @@ export default function FeaturesPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">AI Recipe App Features</h1>
+          <h1 className="heading-1 mb-6">Features that feel like magic</h1>
           <p className="body-lg text-pantry-400">
-            Photo ingredient recognition, personalized recipe generation, meal planning, and smart cooking tools—everything you need to cook with what you have.
+            AI-powered photo recognition turns your ingredients into personalized recipes. Add meal planning, smart grocery lists, and cooking timers—everything you need to cook with what you have.
           </p>
         </div>
       </Section>

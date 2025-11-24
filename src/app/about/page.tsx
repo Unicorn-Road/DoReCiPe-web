@@ -16,9 +16,9 @@ export default function AboutPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">About Our AI Recipe App</h1>
+          <h1 className="heading-1 mb-6">Built by a dad for real households</h1>
           <p className="body-lg text-pantry-400">
-            Do-Re-Ci-Pe was built by a dad for real households—born from the nightly struggle of standing in front of the fridge at 5:47 PM, wondering what&apos;s for dinner.
+            Do-Re-Ci-Pe is an AI recipe app born from the nightly struggle of standing in front of the fridge at 5:47 PM, wondering what&apos;s for dinner. Now it helps thousands of home cooks turn ingredients into meals.
           </p>
         </div>
       </Section>

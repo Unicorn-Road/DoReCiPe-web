@@ -16,9 +16,9 @@ export default function HowItWorksPage() {
       {/* Hero */}
       <Section className="pt-12 sm:pt-20 pb-16 bg-gradient-to-b from-cream-50 to-cream">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="heading-1 mb-6">How Our AI Recipe App Works</h1>
+          <h1 className="heading-1 mb-6">From fridge to feast in four steps</h1>
           <p className="body-lg text-pantry-400">
-            Four simple steps: Snap photos of your ingredients, generate personalized recipes with AI, cook with step-by-step guidance, and plan your meals. No missing ingredients, no stress.
+            Snap photos of your ingredients. Our AI generates personalized recipes instantly. Cook with step-by-step guidance and timers. Plan your week ahead. No missing ingredients, no stress.
           </p>
         </div>
       </Section>

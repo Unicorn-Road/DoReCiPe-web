@@ -41,7 +41,7 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            AI Recipe App That Turns Your Ingredients Into Meals
+            Your Ingredients. Instant Recipes. Zero Waste.
           </h1>
           
           <p className="text-xl font-serif text-pantry-400 mb-4 italic">
