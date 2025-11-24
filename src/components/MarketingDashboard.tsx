@@ -46,24 +46,24 @@ export default function MarketingDashboard() {
   return (
     <div className="space-y-6">
       {/* Key Marketing Metrics - Highlighted */}
-      <div className="bg-gradient-to-br from-apricot-500 to-coral-500 rounded-2xl p-8 text-white shadow-lg">
-        <h2 className="text-2xl font-bold mb-6">🎯 Key Performance Indicators</h2>
+      <div className="bg-gradient-to-br from-apricot-600 to-coral-600 rounded-2xl p-8 text-white shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 drop-shadow-sm">🎯 Key Performance Indicators</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
-            <div className="text-sm opacity-90 mb-1">App Download Clicks</div>
-            <div className="text-4xl font-bold">{data.conversions.downloads.toLocaleString()}</div>
+            <div className="text-sm font-medium mb-1 drop-shadow-sm">App Download Clicks</div>
+            <div className="text-4xl font-bold drop-shadow-md">{data.conversions.downloads.toLocaleString()}</div>
           </div>
           <div>
-            <div className="text-sm opacity-90 mb-1">Search Impressions</div>
-            <div className="text-4xl font-bold">{data.searchConsole.impressions.toLocaleString()}</div>
+            <div className="text-sm font-medium mb-1 drop-shadow-sm">Search Impressions</div>
+            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.impressions.toLocaleString()}</div>
           </div>
           <div>
-            <div className="text-sm opacity-90 mb-1">Search Clicks</div>
-            <div className="text-4xl font-bold">{data.searchConsole.clicks.toLocaleString()}</div>
+            <div className="text-sm font-medium mb-1 drop-shadow-sm">Search Clicks</div>
+            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.clicks.toLocaleString()}</div>
           </div>
           <div>
-            <div className="text-sm opacity-90 mb-1">Avg. Search Position</div>
-            <div className="text-4xl font-bold">{data.searchConsole.position > 0 ? data.searchConsole.position.toFixed(1) : 'N/A'}</div>
+            <div className="text-sm font-medium mb-1 drop-shadow-sm">Avg. Search Position</div>
+            <div className="text-4xl font-bold drop-shadow-md">{data.searchConsole.position > 0 ? data.searchConsole.position.toFixed(1) : 'N/A'}</div>
           </div>
         </div>
       </div>
