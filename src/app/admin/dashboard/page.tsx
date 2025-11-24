@@ -88,19 +88,19 @@ export default function AdminDashboard() {
             <div className="text-pantry-400">Loading analytics...</div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-cream-200">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
                 <div className="text-sm text-pantry-400 mb-2">Page Views</div>
                 <div className="text-3xl font-bold text-pantry">{stats.pageviews.toLocaleString()}</div>
               </div>
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-cream-200">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
                 <div className="text-sm text-pantry-400 mb-2">Users</div>
                 <div className="text-3xl font-bold text-pantry">{stats.users.toLocaleString()}</div>
               </div>
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-cream-200">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
                 <div className="text-sm text-pantry-400 mb-2">Sessions</div>
                 <div className="text-3xl font-bold text-pantry">{stats.sessions.toLocaleString()}</div>
               </div>
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-cream-200">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-2 border-cream-300">
                 <div className="text-sm text-pantry-400 mb-2">Bounce Rate</div>
                 <div className="text-3xl font-bold text-pantry">{stats.bounceRate.toFixed(1)}%</div>
               </div>

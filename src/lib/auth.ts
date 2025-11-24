@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
         const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
         if (!adminEmail || !adminPasswordHash) {
-          console.error("Admin credentials not configured");
+          console.error('Admin credentials not configured');
           return null;
         }
 
