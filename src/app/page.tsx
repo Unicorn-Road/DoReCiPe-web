@@ -41,7 +41,7 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            Your Ingredients. Instant Recipes. Zero Waste.
+            Stop staring at your fridge. Start cooking.
           </h1>
           
           <p className="text-xl font-serif text-pantry-400 mb-4 italic">
@@ -49,7 +49,7 @@ export default function Home() {
           </p>
           
           <p className="body-lg text-pantry-400 mb-8 max-w-2xl mx-auto">
-            Snap a photo of your fridge, pantry, or grocery receipt. Get personalized recipes instantly using exactly what you have—no missing ingredients, no wasted food, no stress.
+            Snap a photo. Get personalized recipes using exactly what you have. AI-powered, zero waste, zero stress. Dinner? Sorted.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
