@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, Suspense } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, RoundedBox, useTexture } from "@react-three/drei";
+import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 
 interface PhoneMockup3DProps {
@@ -10,106 +8,183 @@ interface PhoneMockup3DProps {
   className?: string;
 }
 
-function IPhoneModel({ screenshots, activeIndex }: { screenshots: string[]; activeIndex: number }) {
-  const meshRef = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
-  
-  // Load textures
-  const textures = useTexture(screenshots);
-  
-  // Auto-rotate slightly
-  useFrame((state) => {
-    if (meshRef.current && !hovered) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.15;
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
-    }
-  });
-
-  return (
-    <group 
-      ref={meshRef}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      {/* Phone body - dark frame */}
-      <RoundedBox
-        args={[2.8, 5.6, 0.3]}
-        radius={0.25}
-        smoothness={4}
-      >
-        <meshStandardMaterial 
-          color="#1a1a1a"
-          metalness={0.9}
-          roughness={0.1}
-        />
-      </RoundedBox>
-
-      {/* Screen - slightly inset */}
-      <RoundedBox
-        args={[2.6, 5.3, 0.05]}
-        radius={0.2}
-        smoothness={4}
-        position={[0, 0, 0.16]}
-      >
-        <meshStandardMaterial 
-          map={textures[activeIndex]}
-          toneMapped={false}
-        />
-      </RoundedBox>
-
-      {/* Notch */}
-      <mesh position={[0, 2.4, 0.17]} rotation={[0, 0, Math.PI / 2]}>
-        <capsuleGeometry args={[0.05, 0.4, 4, 8]} />
-        <meshStandardMaterial color="#1a1a1a" />
-      </mesh>
-
-      {/* Side button */}
-      <mesh position={[1.45, 0.8, 0]}>
-        <boxGeometry args={[0.05, 0.6, 0.2]} />
-        <meshStandardMaterial color="#2a2a2a" metalness={0.8} roughness={0.2} />
-      </mesh>
-
-      {/* Volume buttons */}
-      <mesh position={[-1.45, 1.2, 0]}>
-        <boxGeometry args={[0.05, 0.3, 0.2]} />
-        <meshStandardMaterial color="#2a2a2a" metalness={0.8} roughness={0.2} />
-      </mesh>
-      <mesh position={[-1.45, 0.7, 0]}>
-        <boxGeometry args={[0.05, 0.3, 0.2]} />
-        <meshStandardMaterial color="#2a2a2a" metalness={0.8} roughness={0.2} />
-      </mesh>
-
-      {/* Screen reflection overlay */}
-      <mesh position={[0, 0, 0.17]}>
-        <planeGeometry args={[2.6, 5.3]} />
-        <meshStandardMaterial 
-          color="#ffffff"
-          transparent
-          opacity={0.05}
-          metalness={1}
-          roughness={0}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-function LoadingFallback() {
-  return (
-    <mesh>
-      <boxGeometry args={[2.8, 5.6, 0.3]} />
-      <meshStandardMaterial color="#333" />
-    </mesh>
-  );
-}
-
 export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMockup3DProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isClient, setIsClient] = useState(false);
+  const sceneRef = useRef<{
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    renderer: THREE.WebGLRenderer;
+    phone: THREE.Group;
+    screen: THREE.Mesh;
+    textures: THREE.Texture[];
+    animationId?: number;
+  } | null>(null);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    if (!containerRef.current) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+    camera.position.z = 8;
+
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true 
+    });
+    renderer.setSize(600, 600);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    containerRef.current.appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight.position.set(10, 10, 10);
+    spotLight.castShadow = true;
+    scene.add(spotLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 0.5);
+    pointLight.position.set(-10, -10, -10);
+    scene.add(pointLight);
+
+    // Create phone group
+    const phone = new THREE.Group();
+
+    // Phone body (frame)
+    const frameGeometry = new THREE.BoxGeometry(2.8, 5.6, 0.3);
+    const frameMaterial = new THREE.MeshStandardMaterial({
+      color: 0x1a1a1a,
+      metalness: 0.9,
+      roughness: 0.1,
+    });
+    const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+    phone.add(frame);
+
+    // Screen
+    const screenGeometry = new THREE.BoxGeometry(2.6, 5.3, 0.05);
+    const screenMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+    });
+    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen.position.z = 0.16;
+    phone.add(screen);
+
+    // Side button
+    const buttonGeometry = new THREE.BoxGeometry(0.05, 0.6, 0.2);
+    const buttonMaterial = new THREE.MeshStandardMaterial({
+      color: 0x2a2a2a,
+      metalness: 0.8,
+      roughness: 0.2,
+    });
+    const sideButton = new THREE.Mesh(buttonGeometry, buttonMaterial);
+    sideButton.position.set(1.45, 0.8, 0);
+    phone.add(sideButton);
+
+    // Volume buttons
+    const volButton1 = new THREE.Mesh(
+      new THREE.BoxGeometry(0.05, 0.3, 0.2),
+      buttonMaterial
+    );
+    volButton1.position.set(-1.45, 1.2, 0);
+    phone.add(volButton1);
+
+    const volButton2 = new THREE.Mesh(
+      new THREE.BoxGeometry(0.05, 0.3, 0.2),
+      buttonMaterial
+    );
+    volButton2.position.set(-1.45, 0.7, 0);
+    phone.add(volButton2);
+
+    scene.add(phone);
+
+    // Load textures
+    const textureLoader = new THREE.TextureLoader();
+    const textures: THREE.Texture[] = [];
+    let loadedCount = 0;
+
+    screenshots.forEach((src, index) => {
+      textureLoader.load(src, (texture) => {
+        textures[index] = texture;
+        loadedCount++;
+        if (loadedCount === 1) {
+          // Set first texture when loaded
+          screenMaterial.map = textures[0];
+          screenMaterial.needsUpdate = true;
+        }
+      });
+    });
+
+    // Animation
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetRotationY = 0;
+    let targetRotationX = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        targetRotationY = mouseX * 0.3;
+        targetRotationX = mouseY * 0.2;
+      }
+    };
+
+    containerRef.current.addEventListener('mousemove', handleMouseMove);
+
+    const animate = () => {
+      const animationId = requestAnimationFrame(animate);
+
+      // Smooth rotation
+      phone.rotation.y += (targetRotationY - phone.rotation.y) * 0.05;
+      phone.rotation.x += (targetRotationX - phone.rotation.x) * 0.05;
+
+      // Gentle floating animation
+      phone.position.y = Math.sin(Date.now() * 0.001) * 0.05;
+
+      renderer.render(scene, camera);
+      
+      if (sceneRef.current) {
+        sceneRef.current.animationId = animationId;
+      }
+    };
+
+    animate();
+
+    // Store refs
+    sceneRef.current = {
+      scene,
+      camera,
+      renderer,
+      phone,
+      screen,
+      textures,
+    };
+
+    // Cleanup
+    return () => {
+      if (sceneRef.current?.animationId) {
+        cancelAnimationFrame(sceneRef.current.animationId);
+      }
+      containerRef.current?.removeEventListener('mousemove', handleMouseMove);
+      if (containerRef.current?.contains(renderer.domElement)) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, [screenshots]);
+
+  // Update texture when activeIndex changes
+  useEffect(() => {
+    if (sceneRef.current && sceneRef.current.textures[activeIndex]) {
+      const screenMaterial = sceneRef.current.screen.material as THREE.MeshStandardMaterial;
+      screenMaterial.map = sceneRef.current.textures[activeIndex];
+      screenMaterial.needsUpdate = true;
+    }
+  }, [activeIndex]);
 
   // Auto-advance carousel
   useEffect(() => {
@@ -119,39 +194,10 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     return () => clearInterval(interval);
   }, [screenshots.length]);
 
-  if (!isClient) {
-    return (
-      <div className={`relative ${className}`} style={{ width: "600px", height: "600px" }}>
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-coral-100 to-pantry-100 rounded-3xl">
-          <div className="text-pantry-400">Loading 3D view...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={`relative ${className}`} style={{ width: "600px", height: "600px" }}>
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        
-        <Suspense fallback={<LoadingFallback />}>
-          <IPhoneModel screenshots={screenshots} activeIndex={activeIndex} />
-        </Suspense>
-        
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={Math.PI / 1.5}
-          autoRotate={false}
-        />
-      </Canvas>
-
+      <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
+      
       {/* Pagination Dots */}
       <div className="absolute bottom-8 left-0 right-0 z-50 flex justify-center gap-2">
         {screenshots.map((_, index) => (
