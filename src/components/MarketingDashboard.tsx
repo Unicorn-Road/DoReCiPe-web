@@ -21,7 +21,8 @@ interface AppStoreData {
   message?: string;
   stats: {
     downloads: { total: number; today: number; last7Days: number; last30Days: number };
-    revenue: { total: number; today: number; last7Days: number; last30Days: number };
+    revenue: { total: number; today: number; last7Days: number; last30Days: number; app: number; subscription: number };
+    subscriptions: { active: number; mrr: number };
     ratings: {
       average: number;
       count: number;
@@ -167,30 +168,74 @@ export default function MarketingDashboard() {
             </div>
           )}
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             <div className="space-y-2">
               <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Total Downloads</div>
-              <div className="text-5xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</div>
-              <div className="text-sm text-white/70">Last 30 days: {appStoreData.stats.downloads.last30Days.toLocaleString()}</div>
+              <div className="text-4xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</div>
+              <div className="text-sm text-white/70">All time (1F only)</div>
             </div>
             <div className="space-y-2">
               <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Rating</div>
-              <div className="text-5xl font-bold text-white">
+              <div className="text-4xl font-bold text-white">
                 {appStoreData.stats.ratings.average > 0 ? appStoreData.stats.ratings.average.toFixed(1) : 'N/A'}
               </div>
               <div className="text-sm text-white/70">{appStoreData.stats.ratings.count.toLocaleString()} reviews</div>
             </div>
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Revenue</div>
-              <div className="text-5xl font-bold text-white">
-                ${(appStoreData.stats.revenue.last30Days / 1000).toFixed(1)}k
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Total Revenue</div>
+              <div className="text-4xl font-bold text-white">
+                ${appStoreData.stats.revenue.total.toFixed(0)}
               </div>
-              <div className="text-sm text-white/70">Last 30 days</div>
+              <div className="text-sm text-white/70">All time (app + subs)</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Active Subs</div>
+              <div className="text-4xl font-bold text-white">{appStoreData.stats.subscriptions.active}</div>
+              <div className="text-sm text-white/70">${appStoreData.stats.subscriptions.mrr}/mo MRR</div>
             </div>
             <div className="space-y-2">
               <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Crash-Free</div>
-              <div className="text-5xl font-bold text-white">{appStoreData.stats.crashes.crashFreeRate.toFixed(1)}%</div>
-              <div className="text-sm text-white/70">Current version: {appStoreData.stats.updates.currentVersion}</div>
+              <div className="text-4xl font-bold text-white">{appStoreData.stats.crashes.crashFreeRate.toFixed(1)}%</div>
+              <div className="text-sm text-white/70">v{appStoreData.stats.updates.currentVersion}</div>
+            </div>
+          </div>
+          
+          {/* Revenue Breakdown */}
+          <div className="mt-8 grid sm:grid-cols-2 gap-6">
+            <div className="bg-white/10 backdrop-blur rounded-lg p-6">
+              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Revenue Breakdown</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-white/80">App Purchases</span>
+                  <span className="text-xl font-bold text-white">${appStoreData.stats.revenue.app.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-white/80">Subscriptions (last 28d)</span>
+                  <span className="text-xl font-bold text-white">${appStoreData.stats.revenue.subscription.toFixed(2)}</span>
+                </div>
+                <div className="pt-3 border-t border-white/20 flex justify-between items-center">
+                  <span className="text-white font-semibold">Total</span>
+                  <span className="text-2xl font-bold text-white">${appStoreData.stats.revenue.total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/10 backdrop-blur rounded-lg p-6">
+              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Download Stats</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-white/80">Last 7 Days</span>
+                  <span className="text-xl font-bold text-white">{appStoreData.stats.downloads.last7Days.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-white/80">Last 30 Days</span>
+                  <span className="text-xl font-bold text-white">{appStoreData.stats.downloads.last30Days.toLocaleString()}</span>
+                </div>
+                <div className="pt-3 border-t border-white/20 flex justify-between items-center">
+                  <span className="text-white font-semibold">All Time</span>
+                  <span className="text-2xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</span>
+                </div>
+              </div>
             </div>
           </div>
 

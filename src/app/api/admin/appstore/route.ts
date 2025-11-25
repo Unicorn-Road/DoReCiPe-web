@@ -18,7 +18,8 @@ export async function GET(request: NextRequest) {
         message: 'App Store Connect API credentials not configured',
         stats: {
           downloads: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
-          revenue: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
+          revenue: { total: 0, today: 0, last7Days: 0, last30Days: 0, app: 0, subscription: 0 },
+          subscriptions: { active: 0, mrr: 0 },
           ratings: {
             average: 0,
             count: 0,
@@ -41,7 +42,8 @@ export async function GET(request: NextRequest) {
       configured: true,
       stats: stats || {
         downloads: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
-        revenue: { total: 0, today: 0, last7Days: 0, last30Days: 0 },
+        revenue: { total: 0, today: 0, last7Days: 0, last30Days: 0, app: 0, subscription: 0 },
+        subscriptions: { active: 0, mrr: 0 },
         ratings: {
           average: 0,
           count: 0,

@@ -16,6 +16,12 @@ interface AppStoreStats {
     today: number;
     last7Days: number;
     last30Days: number;
+    app: number; // App purchases only
+    subscription: number; // Subscription revenue
+  };
+  subscriptions: {
+    active: number;
+    mrr: number;
   };
   ratings: {
     average: number;
@@ -75,8 +81,8 @@ function generateAppStoreToken(): string {
 
 /**
  * Fetch Sales Reports (downloads and revenue) for Do-Re-Ci-Pe
- * Fetches recent reports and aggregates by date ranges
- * NOTE: This fetches multiple days of reports - consider caching in production
+ * Fetches ALL TIME reports and aggregates by date ranges
+ * NOTE: This fetches many days of reports - caching recommended for production
  */
 async function fetchSalesReports(token: string): Promise<{
   downloads: { total: number; today: number; last7Days: number; last30Days: number };
@@ -94,15 +100,22 @@ async function fetchSalesReports(token: string): Promise<{
   }
 
   const baseUrl = 'https://api.appstoreconnect.apple.com/v1';
-  const totals = { last7Days: { units: 0, revenue: 0 }, last30Days: { units: 0, revenue: 0 } };
+  const totals = { 
+    allTime: { units: 0, revenue: 0 },
+    last7Days: { units: 0, revenue: 0 }, 
+    last30Days: { units: 0, revenue: 0 } 
+  };
 
-  console.log('[AppStore] Fetching sales reports for last 30 days...');
+  console.log('[AppStore] Fetching sales reports (all time)...');
 
-  // Fetch last 30 days (skip today and yesterday due to reporting delay)
-  for (let daysAgo = 2; daysAgo <= 30; daysAgo++) {
-    const d = new Date();
-    d.setDate(d.getDate() - daysAgo);
+  // Fetch from May 1, 2025 (app launch) to now
+  const startDate = new Date('2025-05-01');
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() - 2); // Reports have 2-day delay
+  
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
     const reportDate = d.toISOString().split('T')[0];
+    const daysAgo = Math.floor((new Date().getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
     
     try {
       const res = await axios.get(`${baseUrl}/salesReports`, {
@@ -137,7 +150,7 @@ async function fetchSalesReports(token: string): Promise<{
         const revenue = parseFloat(cols[8]) || 0;
         
         // Only count 1F (new purchases) as downloads
-        // 7F = updates/redownloads, 3F = other transactions
+        // 7F = updates/redownloads, 3F = in-app purchases
         if (productType === '1F') {
           dayUnits += units;
         }
@@ -147,8 +160,13 @@ async function fetchSalesReports(token: string): Promise<{
       }
       
       // Add to totals
-      totals.last30Days.units += dayUnits;
-      totals.last30Days.revenue += dayRevenue;
+      totals.allTime.units += dayUnits;
+      totals.allTime.revenue += dayRevenue;
+      
+      if (daysAgo <= 30) { // Last 30 days
+        totals.last30Days.units += dayUnits;
+        totals.last30Days.revenue += dayRevenue;
+      }
       
       if (daysAgo <= 8) { // Last 7 days
         totals.last7Days.units += dayUnits;
@@ -160,22 +178,77 @@ async function fetchSalesReports(token: string): Promise<{
     }
   }
 
-  console.log('[AppStore] Sales data aggregated:', totals.last30Days.units, 'units, $' + totals.last30Days.revenue.toFixed(2));
+  console.log('[AppStore] Sales data aggregated:', totals.allTime.units, 'total units, $' + totals.allTime.revenue.toFixed(2));
 
   return {
     downloads: {
-      total: totals.last30Days.units,
+      total: totals.allTime.units,
       today: 0,
       last7Days: totals.last7Days.units,
       last30Days: totals.last30Days.units,
     },
     revenue: {
-      total: totals.last30Days.revenue,
+      total: totals.allTime.revenue,
       today: 0,
       last7Days: totals.last7Days.revenue,
       last30Days: totals.last30Days.revenue,
     },
   };
+}
+
+/**
+ * Fetch subscription data from RevenueCat
+ */
+async function fetchRevenueCatData(): Promise<{
+  activeSubscriptions: number;
+  mrr: number;
+  revenue: number;
+} | null> {
+  const apiKey = process.env.REVENUECAT_API_KEY;
+  
+  if (!apiKey) {
+    console.log('[RevenueCat] No API key configured');
+    return null;
+  }
+  
+  try {
+    // Get project ID
+    const projectsRes = await axios.get('https://api.revenuecat.com/v2/projects', {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    
+    const project = projectsRes.data.items?.[0];
+    if (!project) {
+      console.log('[RevenueCat] No projects found');
+      return null;
+    }
+    
+    console.log('[RevenueCat] Found project:', project.name);
+    
+    // Get overview metrics
+    const metricsRes = await axios.get(
+      `https://api.revenuecat.com/v2/projects/${project.id}/metrics/overview`,
+      {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        params: {
+          start_date: '2025-05-01',
+          end_date: new Date().toISOString().split('T')[0],
+        },
+      }
+    );
+    
+    const metrics = metricsRes.data.metrics || [];
+    const activeSubscriptions = metrics.find((m: any) => m.id === 'active_subscriptions')?.value || 0;
+    const mrr = metrics.find((m: any) => m.id === 'mrr')?.value || 0;
+    const revenue = metrics.find((m: any) => m.id === 'revenue')?.value || 0;
+    
+    console.log('[RevenueCat] Metrics:', { activeSubscriptions, mrr, revenue });
+    
+    return { activeSubscriptions, mrr, revenue };
+  } catch (error: any) {
+    console.error('[RevenueCat] Error fetching data:', error.response?.data || error.message);
+    return null;
+  }
 }
 
 /**
@@ -206,10 +279,30 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
       console.error('[AppStore] Error fetching app info:', error.response?.data || error.message);
     }
 
-    // Fetch sales data (downloads and revenue)
+    // Fetch sales data (downloads and revenue from Apple)
     const sales = await fetchSalesReports(token);
-    const downloadStats = { total: sales.downloads.total, today: 0, last7Days: sales.downloads.last7Days, last30Days: sales.downloads.last30Days };
-    const revenueStats = { total: sales.revenue.total, today: 0, last7Days: sales.revenue.last7Days, last30Days: sales.revenue.last30Days };
+    
+    // Fetch subscription data from RevenueCat
+    const revenueCat = await fetchRevenueCatData();
+    
+    // Combine revenue: Apple app purchases + RevenueCat subscriptions
+    const totalRevenue = sales.revenue.total + (revenueCat?.revenue || 0);
+    
+    const downloadStats = { 
+      total: sales.downloads.total, 
+      today: 0, 
+      last7Days: sales.downloads.last7Days, 
+      last30Days: sales.downloads.last30Days 
+    };
+    
+    const revenueStats = { 
+      total: totalRevenue, 
+      today: 0, 
+      last7Days: sales.revenue.last7Days, 
+      last30Days: sales.revenue.last30Days + (revenueCat?.revenue || 0),
+      app: sales.revenue.total,
+      subscription: revenueCat?.revenue || 0,
+    };
 
     // Fetch customer reviews summary (includes rating info)
     let ratingsDistribution = { oneStar: 0, twoStar: 0, threeStar: 0, fourStar: 0, fiveStar: 0 };
@@ -257,6 +350,10 @@ export async function getAppStoreStats(): Promise<AppStoreStats | null> {
     const stats: AppStoreStats = {
       downloads: downloadStats,
       revenue: revenueStats,
+      subscriptions: {
+        active: revenueCat?.activeSubscriptions || 0,
+        mrr: revenueCat?.mrr || 0,
+      },
       ratings: {
         average: ratingAverage,
         count: ratingCount,
