@@ -2,7 +2,7 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import Button from "@/components/Button";
 import Icon from "@/components/Icon";
-import PhoneMockup from "@/components/PhoneMockup";
+import PhoneMockup3D from "@/components/PhoneMockup3DClient";
 import SwissLandscape from "@/components/SwissLandscape";
 import FacebookReelEmbed from "@/components/FacebookReelEmbed";
 import RecipeDemo from "@/components/RecipeDemo";
@@ -183,12 +183,12 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Screenshot Gallery (Replaced Video) */}
+          {/* 3D iPhone Mockup */}
           <div className="relative flex justify-center">
             {/* Decorative blob backing */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[500px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[600px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
             
-            <PhoneMockup 
+            <PhoneMockup3D 
               screenshots={[
                 "/screenshots/01-mobile.png",
                 "/screenshots/02-mobile.png",
