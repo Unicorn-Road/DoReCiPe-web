@@ -133,7 +133,7 @@ async function fetchSalesReports(token: string): Promise<{
         if (sku !== TARGET_SKU) continue; // Only count Do-Re-Ci-Pe
         
         const units = parseInt(cols[7]) || 0;
-        const revenue = parseFloat(cols[9]) || 0;
+        const revenue = parseFloat(cols[8]) || 0; // Column 8 is Developer Proceeds, NOT column 9!
         
         dayUnits += units;
         dayRevenue += revenue;

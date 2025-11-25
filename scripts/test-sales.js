@@ -53,7 +53,7 @@ const baseUrl = 'https://api.appstoreconnect.apple.com/v1';
         const sku = cols[2];
         const productType = cols[6];
         const units = parseInt(cols[7]) || 0;
-        const revenue = parseFloat(cols[9]) || 0;
+        const revenue = parseFloat(cols[8]) || 0; // Column 8 = Developer Proceeds
         
         if (!byProduct[sku]) byProduct[sku] = { units: 0, revenue: 0, type: productType };
         byProduct[sku].units += units;
