@@ -132,10 +132,17 @@ async function fetchSalesReports(token: string): Promise<{
         const sku = cols[2];
         if (sku !== TARGET_SKU) continue; // Only count Do-Re-Ci-Pe
         
+        const productType = cols[6];
         const units = parseInt(cols[7]) || 0;
-        const revenue = parseFloat(cols[8]) || 0; // Column 8 is Developer Proceeds, NOT column 9!
+        const revenue = parseFloat(cols[8]) || 0;
         
-        dayUnits += units;
+        // Only count 1F (new purchases) as downloads
+        // 7F = updates/redownloads, 3F = other transactions
+        if (productType === '1F') {
+          dayUnits += units;
+        }
+        
+        // Count all revenue regardless of type
         dayRevenue += revenue;
       }
       
