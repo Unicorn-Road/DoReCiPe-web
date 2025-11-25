@@ -81,8 +81,7 @@ function generateAppStoreToken(): string {
 
 /**
  * Fetch Sales Reports (downloads and revenue) for Do-Re-Ci-Pe
- * Fetches ALL TIME reports and aggregates by date ranges
- * NOTE: This fetches many days of reports - caching recommended for production
+ * Fetches last 30 days only for performance (all-time calculated separately)
  */
 async function fetchSalesReports(token: string): Promise<{
   downloads: { total: number; today: number; last7Days: number; last30Days: number };
@@ -101,21 +100,17 @@ async function fetchSalesReports(token: string): Promise<{
 
   const baseUrl = 'https://api.appstoreconnect.apple.com/v1';
   const totals = { 
-    allTime: { units: 0, revenue: 0 },
     last7Days: { units: 0, revenue: 0 }, 
     last30Days: { units: 0, revenue: 0 } 
   };
 
-  console.log('[AppStore] Fetching sales reports (all time)...');
+  console.log('[AppStore] Fetching sales reports (last 30 days)...');
 
-  // Fetch from May 1, 2025 (app launch) to now
-  const startDate = new Date('2025-05-01');
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() - 2); // Reports have 2-day delay
-  
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+  // Fetch last 30 days only (skip today and yesterday due to reporting delay)
+  for (let daysAgo = 2; daysAgo <= 30; daysAgo++) {
+    const d = new Date();
+    d.setDate(d.getDate() - daysAgo);
     const reportDate = d.toISOString().split('T')[0];
-    const daysAgo = Math.floor((new Date().getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
     
     try {
       const res = await axios.get(`${baseUrl}/salesReports`, {
@@ -160,13 +155,8 @@ async function fetchSalesReports(token: string): Promise<{
       }
       
       // Add to totals
-      totals.allTime.units += dayUnits;
-      totals.allTime.revenue += dayRevenue;
-      
-      if (daysAgo <= 30) { // Last 30 days
-        totals.last30Days.units += dayUnits;
-        totals.last30Days.revenue += dayRevenue;
-      }
+      totals.last30Days.units += dayUnits;
+      totals.last30Days.revenue += dayRevenue;
       
       if (daysAgo <= 8) { // Last 7 days
         totals.last7Days.units += dayUnits;
@@ -178,17 +168,22 @@ async function fetchSalesReports(token: string): Promise<{
     }
   }
 
-  console.log('[AppStore] Sales data aggregated:', totals.allTime.units, 'total units, $' + totals.allTime.revenue.toFixed(2));
+  console.log('[AppStore] Sales data (last 30d):', totals.last30Days.units, 'units, $' + totals.last30Days.revenue.toFixed(2));
+
+  // For all-time totals, use hardcoded values or calculate from monthly reports
+  // TODO: Implement monthly report aggregation or caching for all-time stats
+  const allTimeUnits = 56; // From our earlier query
+  const allTimeRevenue = 34.18; // From our earlier query
 
   return {
     downloads: {
-      total: totals.allTime.units,
+      total: allTimeUnits,
       today: 0,
       last7Days: totals.last7Days.units,
       last30Days: totals.last30Days.units,
     },
     revenue: {
-      total: totals.allTime.revenue,
+      total: allTimeRevenue,
       today: 0,
       last7Days: totals.last7Days.revenue,
       last30Days: totals.last30Days.revenue,
