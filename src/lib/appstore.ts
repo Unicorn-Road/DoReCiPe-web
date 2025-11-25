@@ -145,12 +145,12 @@ async function fetchSalesReports(token: string): Promise<{
         const revenue = parseFloat(cols[8]) || 0;
         
         // Only count 1F (new purchases) as downloads
-        // 7F = updates/redownloads, 3F = in-app purchases
+        // 7F = updates/redownloads (no revenue), 3F = in-app/subscriptions
         if (productType === '1F') {
           dayUnits += units;
         }
         
-        // Count all revenue regardless of type
+        // Count ALL revenue (1F app purchases + 3F in-app + 7F which is usually $0)
         dayRevenue += revenue;
       }
       
@@ -170,21 +170,17 @@ async function fetchSalesReports(token: string): Promise<{
 
   console.log('[AppStore] Sales data (last 30d):', totals.last30Days.units, 'units, $' + totals.last30Days.revenue.toFixed(2));
 
-  // For all-time totals, use cached values from manual query
-  // Fetching 200+ days takes too long, so we cache these values
-  // Updated: 2025-11-25
-  const allTimeUnits = 56; // All-time 1F downloads
-  const allTimeRevenue = 34.18; // All-time developer proceeds (after Apple's 30% cut)
-
+  // Use last 30 days as proxy for all-time to avoid timeout
+  // TODO: Implement proper caching or background job for all-time stats
   return {
     downloads: {
-      total: allTimeUnits,
+      total: totals.last30Days.units, // Using last 30d as "total" for performance
       today: 0,
       last7Days: totals.last7Days.units,
       last30Days: totals.last30Days.units,
     },
     revenue: {
-      total: allTimeRevenue,
+      total: totals.last30Days.revenue, // Using last 30d as "total" for performance
       today: 0,
       last7Days: totals.last7Days.revenue,
       last30Days: totals.last30Days.revenue,

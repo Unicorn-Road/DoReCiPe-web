@@ -170,9 +170,9 @@ export default function MarketingDashboard() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Total Downloads</div>
+              <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Downloads</div>
               <div className="text-4xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</div>
-              <div className="text-sm text-white/70">All time (1F only)</div>
+              <div className="text-sm text-white/70">Last 30 days (1F only)</div>
             </div>
             <div className="space-y-2">
               <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Rating</div>
@@ -206,7 +206,7 @@ export default function MarketingDashboard() {
               <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Developer Revenue</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/80">App Purchases (all-time)</span>
+                  <span className="text-white/80">App Purchases (last 30d)</span>
                   <span className="text-xl font-bold text-white">${appStoreData.stats.revenue.app.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -219,7 +219,7 @@ export default function MarketingDashboard() {
                 </div>
               </div>
               <div className="mt-3 text-xs text-white/60 italic">
-                * Customer pays ~${((appStoreData.stats.downloads.total * 4.99) + (appStoreData.stats.revenue.subscription / 0.7)).toFixed(0)} gross
+                * Customer gross: ~${((appStoreData.stats.revenue.app / 0.85) + (appStoreData.stats.revenue.subscription / 0.85)).toFixed(0)} (you get 85%)
               </div>
             </div>
             
@@ -235,7 +235,7 @@ export default function MarketingDashboard() {
                   <span className="text-xl font-bold text-white">{appStoreData.stats.downloads.last30Days.toLocaleString()}</span>
                 </div>
                 <div className="pt-3 border-t border-white/20 flex justify-between items-center">
-                  <span className="text-white font-semibold">All Time</span>
+                  <span className="text-white font-semibold">Last 30 Days</span>
                   <span className="text-2xl font-bold text-white">{appStoreData.stats.downloads.total.toLocaleString()}</span>
                 </div>
               </div>
