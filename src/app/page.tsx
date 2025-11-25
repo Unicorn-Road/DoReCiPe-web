@@ -92,9 +92,7 @@ export default function Home() {
               <div className="flex flex-col items-start">
                 <h3 className="text-2xl font-bold text-pantry font-serif mb-1">Do-Re-Ci-Pe</h3>
                 <p className="text-pantry-400 mb-3">Your kitchen sidekick</p>
-                <Link href="/download">
-                  <DownloadButton location="homepage_hero_badge" />
-                </Link>
+                <DownloadButton location="homepage_hero_badge" />
               </div>
             </div>
 
