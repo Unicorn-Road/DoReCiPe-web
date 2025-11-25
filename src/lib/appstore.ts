@@ -170,10 +170,11 @@ async function fetchSalesReports(token: string): Promise<{
 
   console.log('[AppStore] Sales data (last 30d):', totals.last30Days.units, 'units, $' + totals.last30Days.revenue.toFixed(2));
 
-  // For all-time totals, use hardcoded values or calculate from monthly reports
-  // TODO: Implement monthly report aggregation or caching for all-time stats
-  const allTimeUnits = 56; // From our earlier query
-  const allTimeRevenue = 34.18; // From our earlier query
+  // For all-time totals, use cached values from manual query
+  // Fetching 200+ days takes too long, so we cache these values
+  // Updated: 2025-11-25
+  const allTimeUnits = 56; // All-time 1F downloads
+  const allTimeRevenue = 34.18; // All-time developer proceeds (after Apple's 30% cut)
 
   return {
     downloads: {

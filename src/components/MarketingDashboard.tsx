@@ -186,7 +186,7 @@ export default function MarketingDashboard() {
               <div className="text-4xl font-bold text-white">
                 ${appStoreData.stats.revenue.total.toFixed(0)}
               </div>
-              <div className="text-sm text-white/70">All time (app + subs)</div>
+              <div className="text-sm text-white/70">Developer proceeds</div>
             </div>
             <div className="space-y-2">
               <div className="text-xs font-semibold text-white/80 uppercase tracking-wider">Active Subs</div>
@@ -203,10 +203,10 @@ export default function MarketingDashboard() {
           {/* Revenue Breakdown */}
           <div className="mt-8 grid sm:grid-cols-2 gap-6">
             <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Revenue Breakdown</h3>
+              <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-wide">Developer Revenue</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/80">App Purchases</span>
+                  <span className="text-white/80">App Purchases (all-time)</span>
                   <span className="text-xl font-bold text-white">${appStoreData.stats.revenue.app.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -214,9 +214,12 @@ export default function MarketingDashboard() {
                   <span className="text-xl font-bold text-white">${appStoreData.stats.revenue.subscription.toFixed(2)}</span>
                 </div>
                 <div className="pt-3 border-t border-white/20 flex justify-between items-center">
-                  <span className="text-white font-semibold">Total</span>
+                  <span className="text-white font-semibold">Total (after Apple cut)</span>
                   <span className="text-2xl font-bold text-white">${appStoreData.stats.revenue.total.toFixed(2)}</span>
                 </div>
+              </div>
+              <div className="mt-3 text-xs text-white/60 italic">
+                * Customer pays ~${((appStoreData.stats.downloads.total * 4.99) + (appStoreData.stats.revenue.subscription / 0.7)).toFixed(0)} gross
               </div>
             </div>
             
