@@ -61,14 +61,16 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/download"
+            <a
+              href="https://apps.apple.com/us/app/do-re-ci-pe/id6745566524"
               className="btn btn-primary btn-sm"
               aria-label="Download Do-Re-Ci-Pe from App Store"
               onClick={() => trackDownloadClick('header_desktop')}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Download
-            </Link>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -111,16 +113,18 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/download"
+            <a
+              href="https://apps.apple.com/us/app/do-re-ci-pe/id6745566524"
               className="btn btn-primary w-full"
               onClick={() => {
                 trackDownloadClick('header_mobile');
                 setIsMobileMenuOpen(false);
               }}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Download
-            </Link>
+            </a>
           </nav>
         </div>
       )}

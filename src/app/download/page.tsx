@@ -3,6 +3,7 @@ import Section from "@/components/Section";
 import Icon from "@/components/Icon";
 import { getAppStoreLink } from "@/lib/utils";
 import DownloadButton from "@/components/DownloadButton";
+import PhoneMockup from "@/components/PhoneMockup";
 
 export const metadata: Metadata = {
   title: "Download | AI Recipe App for iOS",
@@ -31,18 +32,20 @@ export default function DownloadPage() {
             <DownloadButton location="download_page_hero" />
           </div>
 
-          {/* Device Preview */}
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-3xl shadow-large p-8">
-              <div className="aspect-[9/16] max-w-xs mx-auto bg-gradient-to-br from-apricot-100 to-coral-100 rounded-3xl flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="flex justify-center mb-4 text-coral">
-                    <Icon name="smartphone" className="w-16 h-16" />
-                  </div>
-                  <p className="text-pantry-400">iPhone Preview</p>
-                </div>
-              </div>
-            </div>
+          {/* iPhone Carousel */}
+          <div className="relative flex justify-center">
+            {/* Decorative blob backing */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[500px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
+            
+            <PhoneMockup 
+              screenshots={[
+                "/screenshots/01-mobile.png",
+                "/screenshots/02-mobile.png",
+                "/screenshots/03-mobile.png",
+                "/screenshots/04-mobile.png",
+                "/screenshots/05-mobile.png"
+              ]}
+            />
           </div>
         </div>
       </Section>
