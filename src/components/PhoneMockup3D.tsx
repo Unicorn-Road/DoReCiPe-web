@@ -30,13 +30,13 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    camera.position.z = 8;
+    camera.position.z = 7;
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true 
     });
-    renderer.setSize(600, 600);
+    renderer.setSize(700, 700);
     renderer.setPixelRatio(window.devicePixelRatio);
     
     // Clear any existing canvas before adding new one
@@ -63,49 +63,77 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     // Create phone group
     const phone = new THREE.Group();
 
-    // Phone body (frame)
-    const frameGeometry = new THREE.BoxGeometry(2.8, 5.6, 0.3);
+    // Helper function to create rounded rectangle shape
+    const createRoundedRectShape = (width: number, height: number, radius: number) => {
+      const shape = new THREE.Shape();
+      const x = -width / 2;
+      const y = -height / 2;
+      
+      shape.moveTo(x + radius, y);
+      shape.lineTo(x + width - radius, y);
+      shape.quadraticCurveTo(x + width, y, x + width, y + radius);
+      shape.lineTo(x + width, y + height - radius);
+      shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      shape.lineTo(x + radius, y + height);
+      shape.quadraticCurveTo(x, y + height, x, y + height - radius);
+      shape.lineTo(x, y + radius);
+      shape.quadraticCurveTo(x, y, x + radius, y);
+      
+      return shape;
+    };
+
+    // Phone body (frame) - increased size with rounded corners
+    const frameShape = createRoundedRectShape(3.3, 6.6, 0.4);
+    const frameGeometry = new THREE.ExtrudeGeometry(frameShape, {
+      depth: 0.3,
+      bevelEnabled: false,
+    });
     const frameMaterial = new THREE.MeshStandardMaterial({
       color: 0x1a1a1a,
       metalness: 0.9,
       roughness: 0.1,
     });
     const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+    frame.position.z = -0.15; // Center the extrusion
     phone.add(frame);
 
-    // Screen
-    const screenGeometry = new THREE.BoxGeometry(2.6, 5.3, 0.05);
+    // Screen - increased size with rounded corners
+    const screenShape = createRoundedRectShape(3.1, 6.3, 0.35);
+    const screenGeometry = new THREE.ExtrudeGeometry(screenShape, {
+      depth: 0.05,
+      bevelEnabled: false,
+    });
     const screenMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-    screen.position.z = 0.16;
+    screen.position.z = 0.135; // Position in front of frame
     phone.add(screen);
 
-    // Side button
-    const buttonGeometry = new THREE.BoxGeometry(0.05, 0.6, 0.2);
+    // Side button - adjusted for larger phone
+    const buttonGeometry = new THREE.BoxGeometry(0.05, 0.7, 0.2);
     const buttonMaterial = new THREE.MeshStandardMaterial({
       color: 0x2a2a2a,
       metalness: 0.8,
       roughness: 0.2,
     });
     const sideButton = new THREE.Mesh(buttonGeometry, buttonMaterial);
-    sideButton.position.set(1.45, 0.8, 0);
+    sideButton.position.set(1.7, 1.0, 0);
     phone.add(sideButton);
 
-    // Volume buttons
+    // Volume buttons - adjusted for larger phone
     const volButton1 = new THREE.Mesh(
-      new THREE.BoxGeometry(0.05, 0.3, 0.2),
+      new THREE.BoxGeometry(0.05, 0.35, 0.2),
       buttonMaterial
     );
-    volButton1.position.set(-1.45, 1.2, 0);
+    volButton1.position.set(-1.7, 1.5, 0);
     phone.add(volButton1);
 
     const volButton2 = new THREE.Mesh(
-      new THREE.BoxGeometry(0.05, 0.3, 0.2),
+      new THREE.BoxGeometry(0.05, 0.35, 0.2),
       buttonMaterial
     );
-    volButton2.position.set(-1.45, 0.7, 0);
+    volButton2.position.set(-1.7, 0.9, 0);
     phone.add(volButton2);
 
     scene.add(phone);
@@ -239,7 +267,7 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
   }, [screenshots.length]);
 
   return (
-    <div className={`relative ${className}`} style={{ width: "600px", height: "600px" }}>
+    <div className={`relative ${className}`} style={{ width: "700px", height: "700px" }}>
       <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
       
       {/* Pagination Dots */}
