@@ -24,6 +24,9 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Prevent duplicate initialization
+    if (sceneRef.current) return;
+
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
@@ -35,6 +38,13 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     });
     renderer.setSize(600, 600);
     renderer.setPixelRatio(window.devicePixelRatio);
+    
+    // Clear any existing canvas before adding new one
+    const existingCanvas = containerRef.current.querySelector('canvas');
+    if (existingCanvas) {
+      existingCanvas.remove();
+    }
+    
     containerRef.current.appendChild(renderer.domElement);
 
     // Lighting
@@ -65,7 +75,7 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
 
     // Screen
     const screenGeometry = new THREE.BoxGeometry(2.6, 5.3, 0.05);
-    const screenMaterial = new THREE.MeshStandardMaterial({
+    const screenMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
@@ -106,15 +116,27 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     let loadedCount = 0;
 
     screenshots.forEach((src, index) => {
-      textureLoader.load(src, (texture) => {
-        textures[index] = texture;
-        loadedCount++;
-        if (loadedCount === 1) {
-          // Set first texture when loaded
-          screenMaterial.map = textures[0];
-          screenMaterial.needsUpdate = true;
+      textureLoader.load(
+        src, 
+        (texture) => {
+          // Configure texture
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.colorSpace = THREE.SRGBColorSpace;
+          textures[index] = texture;
+          loadedCount++;
+          if (loadedCount === 1 && index === 0) {
+            // Set first texture when loaded
+            screenMaterial.map = texture;
+            screenMaterial.color.set(0xffffff); // Ensure white multiplier
+            screenMaterial.needsUpdate = true;
+          }
+        },
+        undefined,
+        (error) => {
+          console.error('Error loading texture:', src, error);
         }
-      });
+      );
     });
 
     // Animation
@@ -169,19 +191,41 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
       if (sceneRef.current?.animationId) {
         cancelAnimationFrame(sceneRef.current.animationId);
       }
-      containerRef.current?.removeEventListener('mousemove', handleMouseMove);
-      if (containerRef.current?.contains(renderer.domElement)) {
-        containerRef.current.removeChild(renderer.domElement);
+      const currentContainer = containerRef.current;
+      if (currentContainer) {
+        currentContainer.removeEventListener('mousemove', handleMouseMove);
+        const canvas = currentContainer.querySelector('canvas');
+        if (canvas) {
+          canvas.remove();
+        }
       }
       renderer.dispose();
+      
+      // Dispose of geometries and materials
+      phone.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose();
+          if (Array.isArray(child.material)) {
+            child.material.forEach(mat => mat.dispose());
+          } else {
+            child.material.dispose();
+          }
+        }
+      });
+      
+      // Dispose of textures
+      textures.forEach(texture => texture.dispose());
+      
+      sceneRef.current = null;
     };
   }, [screenshots]);
 
   // Update texture when activeIndex changes
   useEffect(() => {
     if (sceneRef.current && sceneRef.current.textures[activeIndex]) {
-      const screenMaterial = sceneRef.current.screen.material as THREE.MeshStandardMaterial;
+      const screenMaterial = sceneRef.current.screen.material as THREE.MeshBasicMaterial;
       screenMaterial.map = sceneRef.current.textures[activeIndex];
+      screenMaterial.color.set(0xffffff); // Ensure white multiplier
       screenMaterial.needsUpdate = true;
     }
   }, [activeIndex]);
