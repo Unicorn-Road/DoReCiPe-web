@@ -97,18 +97,29 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     frame.position.z = -0.15; // Center the extrusion
     phone.add(frame);
 
-    // Screen - increased size with rounded corners
-    const screenShape = createRoundedRectShape(3.1, 6.3, 0.35);
-    const screenGeometry = new THREE.ExtrudeGeometry(screenShape, {
-      depth: 0.05,
-      bevelEnabled: false,
-    });
+    // Screen - use PlaneGeometry for proper texture mapping
+    const screenGeometry = new THREE.PlaneGeometry(3.0, 6.2);
     const screenMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-    screen.position.z = 0.135; // Position in front of frame
+    screen.position.z = 0.18; // Position in front of frame
     phone.add(screen);
+    
+    // Screen border (to hide edges and create rounded appearance)
+    const screenBorderShape = createRoundedRectShape(3.1, 6.3, 0.35);
+    const screenBorderGeometry = new THREE.ExtrudeGeometry(screenBorderShape, {
+      depth: 0.02,
+      bevelEnabled: false,
+    });
+    const screenBorderMaterial = new THREE.MeshStandardMaterial({
+      color: 0x0a0a0a,
+      metalness: 0.3,
+      roughness: 0.7,
+    });
+    const screenBorder = new THREE.Mesh(screenBorderGeometry, screenBorderMaterial);
+    screenBorder.position.z = 0.16; // Just behind screen plane
+    phone.add(screenBorder);
 
     // Side button - adjusted for larger phone
     const buttonGeometry = new THREE.BoxGeometry(0.05, 0.7, 0.2);
