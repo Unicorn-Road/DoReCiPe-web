@@ -112,10 +112,51 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     screenBorder.position.z = 0.135; // Behind screen
     phone.add(screenBorder);
     
+    // Create rounded corner alpha map for screen
+    const createRoundedAlphaMap = (width: number, height: number, radius: number) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw rounded rectangle
+      const x = 0;
+      const y = 0;
+      const w = canvas.width;
+      const h = canvas.height;
+      const r = radius * (canvas.width / width); // Scale radius to canvas size
+      
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fill();
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      return texture;
+    };
+    
     // Screen - use PlaneGeometry for proper texture mapping
     const screenGeometry = new THREE.PlaneGeometry(3.0, 6.2);
+    const alphaMap = createRoundedAlphaMap(3.0, 6.2, 0.3);
     const screenMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
+      transparent: true,
+      alphaMap: alphaMap,
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
     screen.position.z = 0.17; // In front of border, avoiding z-fighting
