@@ -30,13 +30,13 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    camera.position.z = 7;
+    camera.position.z = 9;
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true 
     });
-    renderer.setSize(700, 700);
+    renderer.setSize(800, 800);
     renderer.setPixelRatio(window.devicePixelRatio);
     
     // Clear any existing canvas before adding new one
@@ -278,7 +278,7 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
   }, [screenshots.length]);
 
   return (
-    <div className={`relative ${className}`} style={{ width: "700px", height: "700px" }}>
+    <div className={`relative ${className}`} style={{ width: "800px", height: "800px" }}>
       <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
       
       {/* Pagination Dots */}
