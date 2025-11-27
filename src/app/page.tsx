@@ -156,6 +156,11 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Recipe Demo */}
+      <Section className="bg-gradient-to-b from-cream-50 to-white">
+        <RecipeDemo />
+      </Section>
+
       {/* How It Works Section */}
       <Section id="how-it-works" className="bg-white">
         <div className="text-center mb-16">
@@ -197,11 +202,6 @@ export default function Home() {
             />
           </div>
         </div>
-      </Section>
-
-      {/* Recipe Demo */}
-      <Section className="bg-gradient-to-b from-cream-50 to-white">
-        <RecipeDemo />
       </Section>
 
       {/* Testimonials */}

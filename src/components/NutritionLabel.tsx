@@ -67,7 +67,7 @@ export default function NutritionLabel({
   };
 
   return (
-    <div className="bg-white dark:bg-black border-2 border-black dark:border-white rounded-xl overflow-hidden max-w-sm">
+    <div className="!bg-white border-2 border-black rounded-xl overflow-hidden max-w-sm">
       {/* Header */}
       <div className="px-4 pt-4 pb-2">
         <h2 className="text-3xl font-black leading-none mb-1">Nutrition Facts</h2>
@@ -75,7 +75,7 @@ export default function NutritionLabel({
       </div>
 
       {/* Thick divider */}
-      <div className="h-2 bg-black dark:bg-white mx-4"></div>
+      <div className="h-2 bg-black mx-4"></div>
 
       {/* Calories */}
       {calories !== undefined && (
@@ -86,12 +86,12 @@ export default function NutritionLabel({
               <span className="text-2xl font-bold">{calories}</span>
             </div>
           </div>
-          <div className="h-[5px] bg-black dark:bg-white mx-4"></div>
+          <div className="h-[5px] bg-black mx-4"></div>
         </>
       )}
 
       {/* Main nutrients */}
-      <div className="divide-y divide-gray-300 dark:divide-gray-700">
+      <div className="divide-y divide-gray-300">
         {/* Fat */}
         {fat !== undefined && (
           <>
@@ -155,7 +155,7 @@ export default function NutritionLabel({
         {/* Protein */}
         {protein !== undefined && (
           <>
-            <div className="h-[5px] bg-black dark:bg-white mx-4"></div>
+            <div className="h-[5px] bg-black mx-4"></div>
             <div className="px-4 py-1 flex justify-between">
               <span className="font-bold">Protein</span>
               <span className="font-bold">{formatValue(protein)}g</span>
@@ -165,7 +165,7 @@ export default function NutritionLabel({
       </div>
 
       {/* Bottom thick divider */}
-      <div className="h-2 bg-black dark:bg-white mx-4 mt-2"></div>
+      <div className="h-2 bg-black mx-4 mt-2"></div>
 
       {/* Dietary labels */}
       {dietaryLabels.length > 0 && (
@@ -186,19 +186,19 @@ export default function NutritionLabel({
 
       {/* AI Generated indicator */}
       {isAIGenerated && (
-        <div className="px-4 pb-2 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+        <div className="px-4 pb-2 flex items-center gap-1 text-xs text-gray-500">
           <span>✨</span>
           <span className="font-medium">AI-Generated Recipe</span>
         </div>
       )}
 
       {/* Legal disclaimer */}
-      <div className="px-4 py-4 bg-black/5 dark:bg-white/5 border-t border-gray-300 dark:border-gray-700">
+      <div className="px-4 py-4 bg-black/5 border-t border-gray-300">
         <p className="text-xs font-black mb-2">IMPORTANT DISCLAIMER</p>
-        <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+        <p className="text-xs text-gray-600 mb-2">
           Nutritional information is estimated and may not be accurate. This app is for informational purposes only and should not be used as a substitute for professional dietary advice. Always consult with a qualified healthcare provider or nutritionist for personalized guidance. The developer assumes no liability for any decisions made based on this information.
         </p>
-        <p className="text-xs text-gray-600 dark:text-gray-400">
+        <p className="text-xs text-gray-600">
           Not evaluated by the FDA. Individual results may vary. May contain allergens not listed. Users with food allergies or dietary restrictions should verify all ingredients independently.
         </p>
       </div>
