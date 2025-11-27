@@ -77,6 +77,7 @@ export const siteConfig = {
   // Social Media
   social: {
     instagram: "https://www.instagram.com/do.re.ci.pe/",
+    facebook: "https://www.facebook.com/dorecipe",
     tiktok: "https://tiktok.com/@dorecipeapp",
     youtube: "https://youtube.com/@dorecipeapp",
   },

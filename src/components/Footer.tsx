@@ -18,6 +18,7 @@ export default function Footer() {
     ],
     social: [
       { label: "Instagram", href: "https://www.instagram.com/do.re.ci.pe/" },
+      { label: "Facebook", href: "https://www.facebook.com/dorecipe" },
       { label: "Support", href: "/support" },
       // { label: "TikTok", href: "https://tiktok.com/@dorecipeapp" },
       // { label: "YouTube", href: "https://youtube.com/@dorecipeapp" },
