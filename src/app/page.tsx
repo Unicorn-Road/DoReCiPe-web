@@ -190,11 +190,11 @@ export default function Home() {
           </div>
 
           {/* 3D iPhone Mockup */}
-          <div className="relative flex justify-center">
+          <div className="relative flex justify-center overflow-hidden">
             {/* Decorative blob backing */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[600px] bg-gradient-to-tr from-coral-200/30 to-pantry-100/50 rounded-full blur-3xl -z-10"></div>
             
-            <PhoneMockup3D 
+            <PhoneMockup3D
               screenshots={[
                 "/screenshots/01-mobile.png",
                 "/screenshots/02-mobile.png",

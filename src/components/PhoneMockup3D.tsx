@@ -338,7 +338,7 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
   }, [screenshots.length]);
 
   return (
-    <div className={`relative ${className} mx-auto`} style={{ width: "800px", height: "800px", maxWidth: "100%" }}>
+    <div className={`relative ${className} mx-auto w-full`} style={{ maxWidth: "800px", aspectRatio: "1/1" }}>
       <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
       
       {/* Pagination Dots */}
