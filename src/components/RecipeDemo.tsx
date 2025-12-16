@@ -306,8 +306,11 @@ export default function RecipeDemo() {
         <h2 className="font-serif text-3xl sm:text-4xl font-bold text-pantry mb-4">
           See the magic in action
         </h2>
-        <p className="text-lg text-pantry-400">
-          These are real examples of AI-generated recipes from Do-Re-Ci-Pe. Click any recipe to explore the full details, nutrition info, and step-by-step instructions.
+        <p className="text-lg text-pantry-400 mb-3">
+          These recipes were created from real fridge photos. No extra ingredients added.
+        </p>
+        <p className="text-base text-pantry-400">
+          Click any recipe to explore the full details, nutrition info, and step-by-step instructions.
         </p>
       </div>
 

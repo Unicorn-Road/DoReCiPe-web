@@ -44,15 +44,15 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            It's 6pm. You open the fridge. Now what do we eat?
+            It's 6pm. You open the fridge. Now what do we eat tonight?
           </h1>
           
           <p className="body-lg text-pantry-400 mb-6 max-w-2xl mx-auto">
-            Take a photo of what's inside. Get a real recipe you can make right now. No shopping. No searching. Just dinner.
+            Take a photo of what's inside. Get a real recipe you can actually make right now. No shopping. No searching. Just dinner.
           </p>
           
           <p className="text-sm text-pantry-500 mb-8 max-w-xl mx-auto">
-            Works offline. No ads. One time price, not a subscription.
+            Works offline. No ads. One time price. Not a subscription.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -129,7 +129,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">Everything you need to figure out dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            Stop stressing. Start cooking. It's really that simple.
+            Stop stressing. Start cooking. Dinner, figured out.
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">Three steps to dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            No setup. No planning. No internet required.
+            No setup. No planning. No internet required. Just dinner.
           </p>
         </div>
 
@@ -210,7 +210,7 @@ export default function Home() {
       {/* Testimonials */}
       <Section>
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">No more fridge panic</h2>
+          <h2 className="heading-2 mb-4">No more fridge panic at 6pm</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
             Real people solving real dinner problems.
           </p>
@@ -239,7 +239,7 @@ export default function Home() {
       <Section className="bg-gradient-to-br from-coral to-coral-400 text-white">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
-            Skip the grocery run. Cook what you have.
+            Skip the grocery run. Cook what you already have.
           </h2>
           <p className="text-xl sm:text-2xl text-white/90 mb-6">
             $4.99 one time. No subscription.
@@ -264,7 +264,7 @@ const features = [
   {
     icon: "camera",
     title: "Take a quick photo",
-    description: "Snap your fridge in 5 seconds. The app reads it and knows what you have.",
+    description: "Snap your fridge in 5 seconds. The app understands what you actually have.",
   },
   {
     icon: "target",
@@ -274,7 +274,7 @@ const features = [
   {
     icon: "lightning",
     title: "Everything stays on your phone",
-    description: "Works offline. No internet required. Your recipes and photos never leave your device.",
+    description: "Works offline. No internet required. Your recipes and photos stay on your phone.",
   },
   {
     icon: "book",
