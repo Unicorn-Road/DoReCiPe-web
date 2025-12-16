@@ -71,9 +71,23 @@ export default function Home() {
           <div className="relative max-w-3xl mx-auto">
             <div className="transform hover:scale-105 transition-transform duration-500">
               <FacebookReelEmbed 
-                videoUrl="https://www.instagram.com/reel/DRDWHViDXPS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" 
+                videoUrl="https://www.instagram.com/reel/DSTfTkkDu4S/?utm_source=ig_embed&utm_campaign=loading" 
                 className="transform rotate-0 shadow-2xl"
               />
+            </div>
+            {/* Creator Credit */}
+            <div className="mt-4 text-center">
+              <p className="text-sm text-pantry-400">
+                Video by{" "}
+                <a 
+                  href="https://www.instagram.com/kristencorrao/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-coral hover:text-coral-600 transition-colors font-medium"
+                >
+                  @kristencorrao
+                </a>
+              </p>
             </div>
           </div>
         </div>
