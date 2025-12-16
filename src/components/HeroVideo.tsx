@@ -45,8 +45,8 @@ export default function HeroVideo({
   };
 
   return (
-    <div className="relative max-w-3xl mx-auto">
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black">
+    <div className="relative max-w-sm mx-auto">
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black" style={{ minHeight: '640px' }}>
         {/* Video */}
         <video
           ref={videoRef}

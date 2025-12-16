@@ -16,14 +16,15 @@ export default function SeeItInAction() {
         </p>
       </div>
 
-      <div className="max-w-md mx-auto">
+      <div className="max-w-sm mx-auto">
         {/* Video Card */}
         <button
           onClick={() => setIsModalOpen(true)}
           className="group relative w-full rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow bg-black"
+          style={{ minHeight: '640px' }}
         >
           {/* Poster Image */}
-          <div className="relative aspect-[9/16]">
+          <div className="relative aspect-[9/16]" style={{ minHeight: '640px' }}>
             <Image
               src="/videos/action-demo-poster.jpg"
               alt="Do-Re-Ci-Pe in action"
