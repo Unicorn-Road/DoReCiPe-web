@@ -44,22 +44,26 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            It's 6pm. You open the fridge. Now what?
+            It's 6pm. You open the fridge. Now what do we eat?
           </h1>
           
-          <p className="body-lg text-pantry-400 mb-8 max-w-2xl mx-auto">
+          <p className="body-lg text-pantry-400 mb-6 max-w-2xl mx-auto">
             Take a photo of what's inside. Get a real recipe you can make right now. No shopping. No searching. Just dinner.
+          </p>
+          
+          <p className="text-sm text-pantry-500 mb-8 max-w-xl mx-auto">
+            Works offline. No ads. One time price, not a subscription.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link href="/download">
               <Button size="lg" className="w-full sm:w-auto">
-                Download and cook tonight
+                Solve dinner tonight
               </Button>
             </Link>
             <Link href="/#how-it-works">
               <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                See the Magic
+                See how it works
               </Button>
             </Link>
           </div>
@@ -104,7 +108,7 @@ export default function Home() {
                     <span key={i} className="text-coral text-lg">★</span>
                   ))}
                 </div>
-                <span className="text-xs font-semibold text-pantry-300 uppercase tracking-wider">Average Rating</span>
+                <span className="text-xs font-semibold text-pantry-300 uppercase tracking-wider">Rated by early users</span>
               </div>
 
               {/* #4 Ranking */}
@@ -125,7 +129,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">Everything you need to figure out dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            No ads. No subscription. Just a simple tool that helps when you're stuck.
+            Stop stressing. Start cooking. It's really that simple.
           </p>
         </div>
 
@@ -165,7 +169,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">Three steps to dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            That's it. That's the whole thing.
+            No setup. No planning. No internet required.
           </p>
         </div>
 
@@ -206,9 +210,9 @@ export default function Home() {
       {/* Testimonials */}
       <Section>
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">This app gets me</h2>
+          <h2 className="heading-2 mb-4">No more fridge panic</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            Real people, real kitchens, real good vibes.
+            Real people solving real dinner problems.
           </p>
         </div>
 
@@ -235,14 +239,14 @@ export default function Home() {
       <Section className="bg-gradient-to-br from-coral to-coral-400 text-white">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
-            Dinner doesn't have to be this hard
+            Skip the grocery run. Cook what you have.
           </h2>
-          <p className="text-xl sm:text-2xl text-white/90 mb-8">
-            Download now. Take a photo tonight. Cook what you already have.
+          <p className="text-xl sm:text-2xl text-white/90 mb-6">
+            $4.99 one time. No subscription.
           </p>
           <DownloadButton location="homepage_final_cta" variant="white" />
           <p className="mt-6 text-white/70 text-sm">
-            $4.99 one time · One saved dinner pays for it
+            One saved dinner pays for it.
           </p>
         </div>
       </Section>
@@ -253,29 +257,29 @@ export default function Home() {
 // Data
 const features = [
   {
+    icon: "clipboard",
+    title: "Built by a parent",
+    description: "Made by a dad of four who gets it. No ads. One time price. Not a subscription.",
+  },
+  {
     icon: "camera",
-    title: "Photo your ingredients",
-    description: "Take a picture of your fridge, freezer, or pantry. The app reads it and knows what you have.",
+    title: "Take a quick photo",
+    description: "Snap your fridge in 5 seconds. The app reads it and knows what you have.",
   },
   {
     icon: "target",
     title: "Get custom recipes instantly",
-    description: "Recipes are made for your exact ingredients. Not what you should have. What you actually have.",
+    description: "Recipes made for your exact ingredients. What you actually have right now.",
   },
   {
     icon: "lightning",
-    title: "Works completely offline",
-    description: "No internet needed once you download. Your recipes, your photos, all private on your phone.",
+    title: "Everything stays on your phone",
+    description: "Works offline. No internet required. Your recipes and photos never leave your device.",
   },
   {
     icon: "book",
-    title: "Save your favorites",
-    description: "Found something your kids ate? Save it. Share it. Make it again next week.",
-  },
-  {
-    icon: "clipboard",
-    title: "Built by a parent",
-    description: "Made by a dad of four who gets it. No ads. One time price. Not a subscription.",
+    title: "Save and share recipes",
+    description: "Found something your kids ate? Save it. Share it with friends. Make it again next week.",
   },
   {
     icon: "calendar",
@@ -291,7 +295,7 @@ const steps = [
   },
   {
     title: "Get your recipe",
-    description: "The app writes a recipe based on exactly what you showed it. Nothing else.",
+    description: "Instantly see what you can make. Real recipes. Real food. Ready in minutes.",
   },
   {
     title: "Make dinner",
@@ -302,14 +306,14 @@ const steps = [
 const testimonials = [
   {
     quote: "I used to stare at my fridge for 20 minutes. Now I just open Do-Re-Ci-Pe and dinner's done.",
-    author: "Sarah, Parent & Fridge Stare Survivor",
+    author: "Sarah",
   },
   {
     quote: "This app has saved me so much money on groceries. I'm finally using what I buy!",
-    author: "Marcus, budget-conscious cook",
+    author: "Marcus",
   },
   {
     quote: "The vibe is perfect: helpful without being preachy. It's like having a friend in the kitchen.",
-    author: "Jen, cooking enthusiast",
+    author: "Jen",
   },
 ];

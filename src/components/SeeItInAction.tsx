@@ -12,7 +12,7 @@ export default function SeeItInAction() {
       <div className="text-center mb-12">
         <h2 className="heading-2 mb-4">See it in action</h2>
         <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-          Real kitchen. Real ingredients. Real dinner solved.
+          Watch someone solve dinner with a quick fridge photo.
         </p>
       </div>
 

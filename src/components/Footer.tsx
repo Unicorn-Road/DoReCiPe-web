@@ -106,7 +106,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-white/60 text-sm">
-              © {currentYear} Do-Re-Ci-Pe. Built with good vibes.
+              © {currentYear} Do-Re-Ci-Pe. Works offline. No ads. Built by a parent.
             </p>
             <p className="text-white/60 text-sm">
               iOS only · Available on the App Store
