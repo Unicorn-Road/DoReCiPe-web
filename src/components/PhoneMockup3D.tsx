@@ -36,7 +36,12 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
       antialias: true, 
       alpha: true 
     });
-    renderer.setSize(800, 800);
+    
+    // Get actual container dimensions
+    const containerWidth = containerRef.current.clientWidth;
+    const containerHeight = containerRef.current.clientHeight;
+    
+    renderer.setSize(containerWidth, containerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     
     // Clear any existing canvas before adding new one
@@ -46,6 +51,19 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
     }
     
     containerRef.current.appendChild(renderer.domElement);
+    
+    // Handle resize
+    const handleResize = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -271,6 +289,7 @@ export default function PhoneMockup3D({ screenshots, className = "" }: PhoneMock
       if (sceneRef.current?.animationId) {
         cancelAnimationFrame(sceneRef.current.animationId);
       }
+      window.removeEventListener('resize', handleResize);
       const currentContainer = containerRef.current;
       if (currentContainer) {
         currentContainer.removeEventListener('mousemove', handleMouseMove);
