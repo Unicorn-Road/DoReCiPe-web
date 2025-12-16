@@ -43,21 +43,17 @@ export default function Home() {
           </div>
           
           <h1 className="heading-1 mb-6 text-balance">
-            Stop staring at your fridge. Start cooking.
+            It's 6pm. You open the fridge. Now what?
           </h1>
           
-          <p className="text-xl font-serif text-pantry-400 mb-4 italic">
-            When we cook, we begin with Do-Re-Ci-Pe
-          </p>
-          
           <p className="body-lg text-pantry-400 mb-8 max-w-2xl mx-auto">
-            Snap a photo. Get personalized recipes using exactly what you have. AI-powered, zero waste, zero stress. Dinner? Sorted.
+            Take a photo of what's inside. Get a real recipe you can make right now. No shopping. No searching. Just dinner.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link href="/download">
               <Button size="lg" className="w-full sm:w-auto">
-                Get Do-Re-Ci-Pe
+                Download and cook tonight
               </Button>
             </Link>
             <Link href="/#how-it-works">
@@ -143,9 +139,9 @@ export default function Home() {
       {/* Features Section */}
       <Section id="features">
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Your fridge is more capable than it looks</h2>
+          <h2 className="heading-2 mb-4">Everything you need to figure out dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            Do-Re-Ci-Pe transforms kitchen chaos into clarity with features that feel like magic.
+            No ads. No subscription. Just a simple tool that helps when you're stuck.
           </p>
         </div>
 
@@ -178,9 +174,9 @@ export default function Home() {
       {/* How It Works Section */}
       <Section id="how-it-works" className="bg-white">
         <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Dinner without the drama</h2>
+          <h2 className="heading-2 mb-4">Three steps to dinner</h2>
           <p className="body-lg text-pantry-400 max-w-2xl mx-auto">
-            No searching, no filtering, no fuss. Just photos, recipes, and better kitchen vibes.
+            That's it. That's the whole thing.
           </p>
         </div>
 
@@ -250,14 +246,14 @@ export default function Home() {
       <Section className="bg-gradient-to-br from-coral to-coral-400 text-white">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
-            Bring back the good kitchen vibes
+            Dinner doesn't have to be this hard
           </h2>
           <p className="text-xl sm:text-2xl text-white/90 mb-8">
-            Your fridge has ideas. Let&apos;s see what we can make.
+            Download now. Take a photo tonight. Cook what you already have.
           </p>
           <DownloadButton location="homepage_final_cta" variant="white" />
           <p className="mt-6 text-white/70 text-sm">
-            Starting at $4.99 · iOS 16 or later
+            $4.99 one time · One saved dinner pays for it
           </p>
         </div>
       </Section>
@@ -269,48 +265,48 @@ export default function Home() {
 const features = [
   {
     icon: "camera",
-    title: "Snap & Cook",
-    description: "Take a photo of your fridge, pantry, or receipts. We'll figure out what you have and what you can make.",
+    title: "Photo your ingredients",
+    description: "Take a picture of your fridge, freezer, or pantry. The app reads it and knows what you have.",
   },
   {
     icon: "target",
-    title: "Smart Recipes",
-    description: "Get recipes tailored to your actual ingredients, not an idealized Pinterest version of cooking.",
-  },
-  {
-    icon: "calendar",
-    title: "Meal Planning",
-    description: "Plan your week ahead with smart meal suggestions. Organize recipes by day and never wonder what's for dinner.",
-  },
-  {
-    icon: "clipboard",
-    title: "Shopping Lists",
-    description: "Automatically generate shopping lists from recipes. Check off items as you shop and never forget an ingredient.",
+    title: "Get custom recipes instantly",
+    description: "Recipes are made for your exact ingredients. Not what you should have. What you actually have.",
   },
   {
     icon: "lightning",
-    title: "Kitchen Sidekick",
-    description: "Cooking timers, smart tips, reheating advice: all the little helpers that make dinner less stressful.",
+    title: "Works completely offline",
+    description: "No internet needed once you download. Your recipes, your photos, all private on your phone.",
   },
   {
     icon: "book",
-    title: "Recipe Library",
-    description: "Save your favorites and build your personal cookbook. Everything you need, nothing you don't.",
+    title: "Save your favorites",
+    description: "Found something your kids ate? Save it. Share it. Make it again next week.",
+  },
+  {
+    icon: "clipboard",
+    title: "Built by a parent",
+    description: "Made by a dad of four who gets it. No ads. One time price. Not a subscription.",
+  },
+  {
+    icon: "calendar",
+    title: "Waste less food",
+    description: "Use what's already there. Stop throwing things away. Stop ordering takeout you don't need.",
   },
 ];
 
 const steps = [
   {
     title: "Take a photo",
-    description: "Snap your fridge, pantry, receipt, or cookbook. We'll read it and know what you've got.",
+    description: "Snap your fridge, pantry, or even that random bag of groceries you forgot about.",
   },
   {
-    title: "See what's possible",
-    description: "We'll suggest recipes you can actually make with what you have, no extra shopping required.",
+    title: "Get your recipe",
+    description: "The app writes a recipe based on exactly what you showed it. Nothing else.",
   },
   {
-    title: "Cook with confidence",
-    description: "Follow step-by-step instructions with timers and tips. Dinner? Sorted.",
+    title: "Make dinner",
+    description: "Follow the steps. Cook. Done. You just solved the 6pm problem.",
   },
 ];
 
