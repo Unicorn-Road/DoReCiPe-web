@@ -4,7 +4,8 @@ import Button from "@/components/Button";
 import Icon from "@/components/Icon";
 import PhoneMockup3D from "@/components/PhoneMockup3DClient";
 import SwissLandscape from "@/components/SwissLandscape";
-import FacebookReelEmbed from "@/components/FacebookReelEmbed";
+import HeroVideo from "@/components/HeroVideo";
+import SeeItInAction from "@/components/SeeItInAction";
 import RecipeDemo from "@/components/RecipeDemo";
 import DownloadButton from "@/components/DownloadButton";
 import { Metadata } from "next";
@@ -63,29 +64,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Video Demo (Replaced PhoneMockup) */}
-          <div className="relative max-w-3xl mx-auto">
-            <div className="transform hover:scale-105 transition-transform duration-500">
-              <FacebookReelEmbed 
-                videoUrl="https://www.instagram.com/reel/DSTfTkkDu4S/?utm_source=ig_embed&utm_campaign=loading" 
-                className="transform rotate-0 shadow-2xl"
-              />
-            </div>
-            {/* Creator Credit */}
-            <div className="mt-4 text-center">
-              <p className="text-sm text-pantry-400">
-                Video by{" "}
-                <a 
-                  href="https://www.instagram.com/kristencorrao/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-coral hover:text-coral-600 transition-colors font-medium"
-                >
-                  @kristencorrao
-                </a>
-              </p>
-            </div>
-          </div>
+          {/* Hero Video */}
+          <HeroVideo 
+            videoSrc="/videos/hero-demo.mp4"
+            posterSrc="/videos/hero-demo-poster.jpg"
+            creatorHandle="kristencorrao"
+          />
         </div>
       </Section>
 
@@ -169,6 +153,11 @@ export default function Home() {
       {/* Recipe Demo */}
       <Section className="bg-gradient-to-b from-cream-50 to-white">
         <RecipeDemo />
+      </Section>
+
+      {/* See It In Action */}
+      <Section className="bg-white">
+        <SeeItInAction />
       </Section>
 
       {/* How It Works Section */}
