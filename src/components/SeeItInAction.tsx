@@ -31,8 +31,8 @@ const videos: Video[] = [
     id: "bubbas",
     posterSrc: "/videos/bubbas-demo-poster.jpg",
     videoSrc: "/videos/bubbas-demo.mp4",
-    creatorHandle: "bubbas_sourdough_co",
-    creatorName: "Bubba's Sourdough Co",
+    creatorHandle: "kenskitchennn",
+    creatorName: "Ken's Kitchen",
   },
   {
     id: "kenskitchen",
