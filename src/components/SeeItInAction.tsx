@@ -38,8 +38,8 @@ const videos: Video[] = [
     id: "kenskitchen",
     posterSrc: "/videos/kenskitchen-demo-poster.jpg",
     videoSrc: "/videos/kenskitchen-demo.mp4",
-    creatorHandle: "bubbas_sourdough_co",
-    creatorName: "Bubba's Sourdough Co",
+    creatorHandle: "zumrutay",
+    creatorName: "Zümrüt Ay",
   },
   {
     id: "xmaspartyprep",
