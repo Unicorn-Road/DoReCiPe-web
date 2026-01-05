@@ -41,6 +41,13 @@ const videos: Video[] = [
     creatorHandle: "bubbas_sourdough_co",
     creatorName: "Bubba's Sourdough Co",
   },
+  {
+    id: "xmaspartyprep",
+    posterSrc: "/videos/xmas-party-prep-demo-poster.jpg",
+    videoSrc: "/videos/xmas-party-prep-demo.mp4",
+    creatorHandle: "bubbassourdoughco",
+    creatorName: "Bubba's Sourdough Co",
+  },
 ];
 
 export default function SeeItInAction() {
@@ -56,7 +63,7 @@ export default function SeeItInAction() {
       </div>
 
       {/* Video Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
         {videos.map((video) => (
           <button
             key={video.id}
