@@ -92,6 +92,7 @@ export const metadata: Metadata = {
   },
   other: {
     "apple-itunes-app": "app-id=6745566524",
+    "google-site-verification": "HNGVGLOg7KkTDdGewYR-gUv08Alp7xTBL79iyZmR-ts",
   },
 };
 
